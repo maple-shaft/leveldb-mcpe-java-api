@@ -1,0 +1,15 @@
+; Test program for Fibonacci, it will operate in an endless loop.
+; Expected results: 0x02, 0x01, 0x07, 0x15, 0x02, 0x02, 0x05, 0x16, 0x04, 0x15, 0x05, 0x16, 0x03, 0x0, 0x06,
+; 0x16, 0x07, 0x15, 0x08, 0x05
+
+1  LDB $1
+2  STB #21     ; Loading 1 into memory
+3  LDB $2
+4  STB #22     ; Loading 2 into memory
+5  OUT #22     ; Display current result
+6  LDA #21
+7  LDB #22
+8  ADD
+9  STA #22
+10 STB #21
+11 JMP $4      ; Loop back to output latest result

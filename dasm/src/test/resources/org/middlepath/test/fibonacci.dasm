@@ -1,0 +1,8 @@
+; This is an example of a comment
+
+
+
+01 LDA #0x50    ; Here we go $ gkagag
+03  LDB $23
+
+
