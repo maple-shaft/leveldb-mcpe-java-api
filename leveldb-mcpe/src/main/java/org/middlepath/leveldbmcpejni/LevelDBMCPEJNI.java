@@ -3,11 +3,11 @@ package org.middlepath.leveldbmcpejni;
 import java.io.FileOutputStream;
 import java.io.File;
 
-public class LevelDBMCPEJNI {
+public class LevelDBMCPEJNI implements ByteRetriever {
 
 	public native void print();
 	public native long open(String path);
-	public native byte[] get(long databasePointer, int x, int y, int z, int dim);
+	public native byte[] get(long databasePointer, int x, int z, int y, int dim);
 	public native long count(long databasePointer);
 	public native void close(long databasePointer);
 	
@@ -15,25 +15,37 @@ public class LevelDBMCPEJNI {
 		System.loadLibrary("leveldb-mcpe-native");
 	}
 	
+	private long databasePointer = -1;
+	private String dbPath = "";
+	
+	public LevelDBMCPEJNI(String path) throws Exception {
+		this.dbPath = path;
+		this.databasePointer = open(this.dbPath);
+	}
+	
+	@Override
+	public void finalize() throws Throwable {
+		super.finalize();
+		this.close(this.databasePointer);
+	}
+	
+	@Override
+	public byte[] get(int x, int z, int yDiv, int dim) {
+		return this.get(this.databasePointer, x, z, y, dim);
+	}
+	
 	public static void main(String[] args) throws Exception {
 		LevelDBMCPEJNI j = new LevelDBMCPEJNI();
 		
-		j.print();
-		long databasePtr = -1L;
+		byte[] record = j.get(databasePtr, 2, 2, 0, 0);
+		FileOutputStream fos = null;
 		try {
-			databasePtr = j.open("path");
-			byte[] record = j.get(databasePtr, 2, 2, 0);
-			FileOutputStream fos = null;
-			try {
-				fos = new FileOutputStream(new File("output.bin"));
-				fos.write(record);
-				fos.flush();
-			} finally {
-				if (fos != null)
-					fos.close();
-			}
+			fos = new FileOutputStream(new File("output.bin"));
+			fos.write(record);
+			fos.flush();
 		} finally {
-			j.close(databasePtr);
+			if (fos != null)
+				fos.close();
 		}
 	}
 }
