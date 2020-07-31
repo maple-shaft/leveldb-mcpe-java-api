@@ -3,19 +3,54 @@ package org.middlepath.leveldbmcpe.nbt;
 import java.io.UnsupportedEncodingException;
 
 import org.middlepath.leveldbmcpe.utils.BinaryUtils;
+import org.middlepath.leveldbmcpe.generic.BedrockSerializable;
 
-public abstract class NBTTag<T> {
+public abstract class NBTTag<T> implements BedrockSerializable {
 	
 	protected String name;
 	protected T value;
 	protected NBTTagType type;
-	protected final int startIndex;
+
+	public NBTTag(String name, T value, NBTTagType type) {
+		this.name = name;
+		this.value = value;
+		this.type = type;
+	}
 	
 	public NBTTag(byte[] bytes, int startIndex, NBTTagType type) {
 		this.type = type;
-		this.startIndex = startIndex;
 		this.name = parseNBTTagName(bytes, startIndex);
 		this.value = parseNBTTagName(bytes, startIndex);
+	}
+	
+	@Override
+	public byte[] write() throws Exception {
+		byte[] ret = new byte[this.getByteLength()];
+		int tempIndex = 0;
+		
+		//first byte is the tag type
+		ret[tempIndex++] = getType().write()[0];
+		//write name length and then name
+		byte[] nameBytes = getName().getBytes();
+		byte[] nameByteLength = BinaryUtils.convertShortToBytesLittleEndian((short)nameBytes.length);
+		
+		System.arraycopy(nameByteLength, 0, ret, tempIndex, 2);
+		tempIndex += 2;
+		if (nameBytes.length > 0) {
+			System.arraycopy(nameBytes, 0, ret, tempIndex, nameBytes.length);
+			tempIndex += nameBytes.length;
+		}
+		
+		//write value length and value
+		byte[] valueLengthBytes = getValueBytesLength();
+		byte[] valueBytes = getValueBytes();
+		if (valueLengthBytes != null && valueLengthBytes.length > 0) {
+			System.arraycopy(valueLengthBytes, 0, ret, tempIndex, 2);
+			tempIndex += 2;
+		}
+		
+		System.arraycopy(valueBytes, 0, ret, tempIndex, valueBytes.length);
+		return ret;
 	}
 	
 	public String getName() {
@@ -36,6 +71,13 @@ public abstract class NBTTag<T> {
 	 * @return 
 	 */
 	public abstract int getValueLength();
+	
+	/**
+	 * Get the underlying bytes of the value of this tag (for serialization into Binary NBT format)
+	 * 
+	 * @return
+	 */
+	public abstract byte[] getValueBytes();
 	
 	public NBTTagType getType() {
 		return this.type;
@@ -60,8 +102,6 @@ public abstract class NBTTag<T> {
 		}
 		return null;
 	}
-	
-	public abstract byte[] getNBTBytes();
 	
 	public int getNameLength() {
 		return 2 + this.name.length();

@@ -5,6 +5,10 @@ import java.io.UnsupportedEncodingException;
 
 public class StringNBTTag extends NBTTag<String> {
 
+	public StringNBTTag(String name, String value, NBTTagType type) {
+		super(name, value, type);
+	}
+
 	public StringNBTTag(byte[] bytes, int startIndex) {
 		super(bytes, startIndex, NBTTagType.TAG_STRING);
 	}
@@ -24,13 +28,17 @@ public class StringNBTTag extends NBTTag<String> {
 	}
 	
 	@Override
-	public byte[] getNBTBytes() {
-		return null; //TODO: Will implement later
-	}
-	
-	@Override
 	public int getValueLength() {
 		return 2 + this.value.length();
 	}
-
+	
+	@Override
+	public byte[] getValueBytes() {
+		return getValue().getBytes();
+	}
+	
+	@Override
+	public byte[] getValueBytesLength() {
+		return BinaryUtils.convertShortToBytesLittleEndian((short)getValueBytes.length);
+	}
 }

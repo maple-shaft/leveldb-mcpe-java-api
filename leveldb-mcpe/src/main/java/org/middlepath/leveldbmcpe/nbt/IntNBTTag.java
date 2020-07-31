@@ -4,6 +4,10 @@ import org.middlepath.leveldbmcpe.utils.BinaryUtils;
 
 public class IntNBTTag extends NBTTag<Integer> {
 
+	public IntNBTTag(String name, Integer value, NBTTagType type) {
+		super(name, value, type);
+	}
+
 	public IntNBTTag(byte[] bytes, int startIndex) {
 		super(bytes, startIndex, NBTTagType.TAG_INT);
 	}
@@ -24,7 +28,12 @@ public class IntNBTTag extends NBTTag<Integer> {
 	}
 	
 	@Override
-	public byte[] getNBTBytes() {
-		return null; //TODO: Will implement later
+	public byte[] getValueBytes() {
+		return BinaryUtils.convertIntToBytesLittleEndian(getValue());
+	}
+	
+	@Override
+	public byte[] getValueBytesLength() {
+		return new byte[] {};
 	}
 }

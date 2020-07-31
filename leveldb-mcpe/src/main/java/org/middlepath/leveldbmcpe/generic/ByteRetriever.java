@@ -1,4 +1,4 @@
-package org.middlepath.leveldbmcpejni;
+package org.middlepath.leveldbmcpe.generic;
 
 public interface ByteRetriever {
 

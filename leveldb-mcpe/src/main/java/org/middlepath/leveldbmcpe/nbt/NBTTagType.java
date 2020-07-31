@@ -1,29 +1,42 @@
 package org.middlepath.leveldbmcpe.nbt;
 
-public enum NBTTagType {
+import org.middlepath.leveldbmcpe.generic.BedrockSerializable;
 
-	TAG_END(0x00),
-	TAG_BYTE(0x01),
-	TAG_SHORT(0x02),
-	TAG_INT(0x03),
-	TAG_LONG(0x04),
-	TAG_FLOAT(0x05),
-	TAG_DOUBLE(0x06),
-	TAG_BYTE_ARRAY(0x07),
-	TAG_STRING(0x08),
-	TAG_LIST(0x09),
-	TAG_COMPOUND(0x0A),
-	TAG_INT_ARRAY(0x0B),
-	TAG_LONG_ARRAY(0x0C);
+public enum NBTTagType implements BedrockSerializable {
+
+	TAG_END(0x00, null),
+	TAG_BYTE(0x01, Byte.class),
+	TAG_SHORT(0x02, Short.class),
+	TAG_INT(0x03, Integer.class),
+	TAG_LONG(0x04, Long.class),
+	TAG_FLOAT(0x05, Float.class),
+	TAG_DOUBLE(0x06, Double.class),
+	TAG_BYTE_ARRAY(0x07, byte[].class),
+	TAG_STRING(0x08, String.class),
+	TAG_LIST(0x09, java.util.List.class),
+	TAG_COMPOUND(0x0A, null),
+	TAG_INT_ARRAY(0x0B, int[].class),
+	TAG_LONG_ARRAY(0x0C, long[].class);
 	
 	private int key;
+	private Class<?> type;
 	
-	NBTTagType(int key) {
+	NBTTagType(int key, Class<?> type) {
 		this.key = key;
+		this.type = type;
 	}
 	
 	public int getTagTypeKey() {
 		return this.key;
+	}
+	
+	public Class<?> getType() {
+		return this.type;
+	}
+	
+	@Override
+	public byte[] write() throws Exception {
+		return new byte[] { (byte)this.key };
 	}
 	
 	public static NBTTagType getTagTypeFromByte(final byte b) {

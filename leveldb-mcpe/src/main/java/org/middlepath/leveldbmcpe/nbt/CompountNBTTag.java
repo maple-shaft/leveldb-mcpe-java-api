@@ -6,7 +6,11 @@ import java.util.stream.Collectors;
 
 public class CompoundNBTTag extends NBTTag<List<NBTTag<?>>> {
 	
-	public CompountNBTTag(byte[] bytes, int startIndex) {
+	public CompoundNBTTag(String name, List<NBTTag<?>> value, NBTTagType type) {
+		super(name, value, type);
+	}
+	
+	public CompoundNBTTag(byte[] bytes, int startIndex) {
 		super(bytes, startIndex, NBTTagType.TAG_COMPOUND);
 	}
 	
@@ -26,8 +30,23 @@ public class CompoundNBTTag extends NBTTag<List<NBTTag<?>>> {
 	}
 	
 	@Override
-	public byte[] getNBTBytes() {
-		return null; //TODO: Will implement later;
+	public byte[] getValueBytes() {
+		byte[] ret = new byte[getValueLength()];
+		int tempIndex = 0;
+		for (NBTTag<?> innerValue : getValue()) {
+			try {
+				System.arraycopy(innerValue.write(), 0, ret, tempIndex, innerValue.getByteLength());
+				tempIndex += innerValue.getByteLength();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+	
+	@Override
+	public byte[] getValueBytesLength() {
+		return new byte[] {};
 	}
 	
 	@Override

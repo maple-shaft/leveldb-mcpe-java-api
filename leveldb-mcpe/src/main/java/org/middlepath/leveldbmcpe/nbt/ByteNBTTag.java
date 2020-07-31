@@ -1,6 +1,10 @@
 package org.middlepath.leveldbmcpe.nbt;
 
 public class ByteNBTTag extends NBTTag<Byte> {
+
+	public ByteNBTTag(String name, Byte value, NBTTagType type) {
+		super(name, value, type);
+	}
 	
 	public ByteNBTTag(byte[] bytes, int startIndex) {
 		super(bytes, startIndex, NBTTagType.TAG_BYTE);
@@ -18,7 +22,12 @@ public class ByteNBTTag extends NBTTag<Byte> {
 	}
 	
 	@Override
-	public byte[] getNBTBytes() {
-		return null; //TODO: Will implement later, maybe this should implement serializable?
+	public byte[] getValueBytes() {
+		return new byte[] { getValue().byteValue() };
+	}
+	
+	@Override
+	public byte[] getValueBytesLength() {
+		return new byte[] {};
 	}
 }

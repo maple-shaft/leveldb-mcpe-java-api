@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.io.ByteArrayOutputStream;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.middlepath.leveldbmcpe.generic.BedrockSerializable;
 
 public class BinaryUtils {
 
@@ -24,6 +25,50 @@ public class BinaryUtils {
 			if (buffer != null)
 				buffer.close();
 		}
+	}
+	
+	public static void concat(ByteArrayOutputStream acccumulator, Iterator<? extends BedrockSerializable> it) {
+		try {
+			while (it.hasNext()) {
+				accumulator.write(it.next().write());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static byte[] convertShortToBytesLittleEndian(short s) {
+		byte[] ret = new byte[2];
+		ret[1] = (byte)((s >>> 8) & 0xFF);
+		ret[0] = (byte)(s & 0xFF);
+		return ret;
+	}
+	
+	public static byte[] convertIntToBytesBigEndian(int i) {
+		byte[] ret = new byte[4];
+		ret[0] = (byte)((i >>> 24) & 0xFF);
+		ret[1] = (byte)((i >>> 16) & 0xFF);
+		ret[2] = (byte)((i >>> 8) & 0xFF);
+		ret[3] = (byte)(i & 0xFF);
+		return ret;
+	}
+	
+	public static byte[] convertIntToBytesLittleEndian(int i) {
+		byte[] ret = new byte[4];
+		ret[3] = (byte)((i >>> 24) & 0xFF);
+		ret[2] = (byte)((i >>> 16) & 0xFF);
+		ret[1] = (byte)((i >>> 8) & 0xFF);
+		ret[0] = (byte)(i & 0xFF);
+		return ret;
+	}
+	
+	public static byte[] convertIntToBytesLittleEndian(Integer i) {
+		return convertIntToBytesLittleEndian(i.intValue());
+	}
+	
+	public static byte[] convertIntToBytesLittleEndian(Long l) {
+		int con = (int)(l & 0xFFFFFFFFL);
+		return convertIntToBytesLittleEndian(con);
 	}
 	
 	/**
