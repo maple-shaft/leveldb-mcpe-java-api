@@ -1,3 +1,4 @@
+#ifndef CONVARTER_MAPKEY_H
 #define CONVARTER_MAPKEY_H
 
 #include <cstdint>

@@ -4,21 +4,37 @@ plugins {
 	id 'cpp-library'
 }
 
-group 'org.middlepath.dasm'
+group 'org.middlepath'
 version '1.0-SNAPSHOT'
 
 // Directory where LEVELDB is installed
 def leveldbHome = System.getenv('LEVELDB_HOME')
-//Directory for the native project SO build location.  This should be relative to build dir.
-def leveldbSharedLibraryDir = System.getenv('LEVELDB_MCPE_NATIVE_LIB_DIR')
+
+//Directory for libleveldb.so build
+def leveldbSharedLibraryDir = leveldbHome + '/out-shared'
+
 //Hard coding to the linux environment... will make this build much more inclusive to other build environments.
-def leveldbSharedLibrary = leveldbSharedLibraryDir + '/libleveldb.so
+//def leveldbSharedLibrary = leveldbSharedLibraryDir + '/libleveldb.so'
+// Uncomment the line below for Cygwin because symlinks don't work by default.
+def leveldbSharedLibrary = leveldbSharedLibraryDir + '/libleveldb.so.1.20'
+
+// headers for leveldb
 def leveldbInclude = leveldbHome + '/include'
+
+/*model {
+	toolChains {
+		gcc(Gcc) {
+			path "C:/cygwin64/bin"
+		}
+	}
+}*/
 
 library {
 	binaries.configureEach { CppBinary binary ->
 		def compileTask = binary.compileTask.get()
-		compileTask.includes.from("${Jvm.current().javaHome}/include")
+		
+		def javaHomeCustom = "${Jvm.current().javaHome}"
+		compileTask.includes.from(javaHomeCustom + "/include")
 		
 		compileTask.includes.from(leveldbInclude)
 
@@ -26,9 +42,9 @@ library {
 		if (osFamily.macOs) {
 			compileTask.includes.from("${Jvm.current().javaHome}/include/darwin")
 		} else if (osFamily.linux) {
-			compileTask.includes.from("${Jvm.current().javaHome}/include/linux")
+			compileTask.includes.from(javaHomeCustom + "/include/linux")
 		} else if (osFamily.windows) {
-			compileTask.includes.from("${Jvm.current().javaHome}/include/win32")
+			compileTask.includes.from(javaHomeCustom + "/include/win32")
 		}
 
 		compileTask.source.from fileTree(dir: "src/main/cpp", include: "**/*.cpp")

@@ -17,9 +17,9 @@ jbyteArray as_byte_array(JNIEnv *env, unsigned char* buf, int len) {
 }
 
 unsigned char* as_unsigned_char_array(JNIEnv *env, jbyteArray array) {
-	int len = evn->GetArrayLength(array);
+	int len = env->GetArrayLength(array);
 	unsigned char* buf = new unsigned char[len];
-	env->GetByteArrayRegion(array, 0, len, reinterpret_case<jbyte*>(buf));
+	env->GetByteArrayRegion(array, 0, len, reinterpret_cast<jbyte*>(buf));
 	return buf;
 }
 
@@ -40,14 +40,14 @@ Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_count(JNIEnv *env, jobject thi
 {
 	leveldbmcpenative::DB *database = reinterpret_cast<leveldbmcpenative::DB*>(ptr);
 	long recordCount = database->CountRecords();
-	return reinterpret_cast<jlong>(recordCount);
+	return reinterpret_cast<jlong>((long long)(recordCount));
 }
 
 JNIEXPORT jbyteArray JNICALL
-Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_get(JNIEnv *env, jobject thiz, jlong ptr)
+Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_get(JNIEnv *env, jobject thiz, jlong ptr, jint x, jint z, jint y, jint dim)
 {
 	leveldbmcpenative::DB *database = reinterpret_cast<leveldbmcpenative::DB*>(ptr);
-	mapkey_t key = LDBKEY_STRUCT(reinterpret_cast<int32_t>(x), reinterpret_cast<int32_t>(z), reinterpret_cast<int32_t>(dim));
+	mapkey_t key = LDBKEY_STRUCT(static_cast<int32_t>(x), static_cast<int32_t>(z), static_cast<int32_t>(dim));
 	std::string ret = database->Get(key);
 	unsigned char * retC = const_cast<unsigned char*>(reinterpret_cast<unsigned const char *>(ret.data()));
 	return as_byte_array(env, retC, ret.length());
