@@ -3,6 +3,10 @@ plugins {
 	id 'application'
 }
 
+ext {
+	nativePath = "${project(":leveldb-mcpe-native").buildDir}/lib/main/debug"
+}
+
 sourceSets {
 	main {
 		java {
@@ -10,21 +14,23 @@ sourceSets {
 		}
 		resources { srcDirs = ['src/main/resources'] }
 	}
-	
-	repositories { maven jcenter() }
-	
-	dependencies {
-		testCompile 'junit:junit:4.13'
-	}
-	
-	application {
-		applicationDefaultJvmArgs = ['-Djava.library.path=' + nativePath]
-		mainClassName = 'org.middlepath.leveldbmcpejni.LevelDBMCPEJNI'
-	}
-	
-	test {
-		systemProperty "java.library.path", file("${project(":leveldb-mcpe-native").buildDir}/lib/main/debug").absolutePath
-	}
-	
-	compileJava.dependsOn ':leveldb-mcpe-native:linkDebug'
 }
+
+
+
+repositories { jcenter() }
+
+dependencies {
+	testCompile 'junit:junit:4.13'
+}
+
+application {
+	applicationDefaultJvmArgs = ['-Djava.library.path=' + nativePath]
+	mainClassName = 'org.middlepath.leveldbmcpejni.LevelDBMCPEJNI'
+}
+
+test {
+	systemProperty "java.library.path", file("${project(":leveldb-mcpe-native").buildDir}/lib/main/debug").absolutePath
+}
+
+compileJava.dependsOn ':leveldb-mcpe-native:linkDebug'

@@ -4,7 +4,6 @@ plugins {
 	id 'cpp-library'
 }
 
-group 'org.middlepath'
 version '1.0-SNAPSHOT'
 
 // Directory where LEVELDB is installed
@@ -21,13 +20,6 @@ def leveldbSharedLibrary = leveldbSharedLibraryDir + '/libleveldb.so.1.20'
 // headers for leveldb
 def leveldbInclude = leveldbHome + '/include'
 
-/*model {
-	toolChains {
-		gcc(Gcc) {
-			path "C:/cygwin64/bin"
-		}
-	}
-}*/
 
 library {
 	binaries.configureEach { CppBinary binary ->

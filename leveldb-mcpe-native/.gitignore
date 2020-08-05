@@ -26,3 +26,8 @@ hs_err_pid*
 # Gradle stuff
 /build/
 /.gradle/
+
+#Eclipse stuff
+.project
+/.settings/
+.classpath

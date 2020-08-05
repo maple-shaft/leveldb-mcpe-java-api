@@ -1,0 +1,2 @@
+include 'leveldb-mcpe-native', 'leveldb-mcpe', 'dasm'
+rootProject.name = 'leveldb-mcpe-java-api'

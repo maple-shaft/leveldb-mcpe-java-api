@@ -34,7 +34,7 @@ dependencies {
 	testCompile 'junit:junit:4.13'
 }
 
-mainClssName = 'org.middlepath.dassembler.DAssemblerMain'
+mainClassName = 'org.middlepath.dassembler.DAssemblerMain'
 
 task generateDAssembler (type: JavaExec) {
 	description = 'Generates the new DAssembler Lexer and Parser'

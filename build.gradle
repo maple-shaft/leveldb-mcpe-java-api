@@ -1,0 +1,22 @@
+//apply plugin 'java'
+
+allprojects {
+	group = 'org.middlepath'
+	repositories {
+		mavenCentral()
+	}
+}
+/*
+project(':dasm') {
+
+	
+	dependencies {
+		implementation project(':leveldb-mcpe')
+	}
+}
+
+project(':leveldb-mcpe') {
+	dependencies {
+		implementation project(':leveldb-mcpe-native')
+	}
+}*/
