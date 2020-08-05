@@ -27,8 +27,14 @@ public class DasmWorkerListener extends DasmBaseListener {
 	private AbstractInstruction _tempInstruction;
 	private byte _tempOperand;
 	
+	public DasmWorkerListener(CharStream cs) {
+		this.lexer = new DasmLexer(cs);
+		this.tokenStream = new CommonTokenStream(lexer);
+		this.parser = new DasmParser(tokenStream);
+	}
+	
 	public DasmWorkerListener(InputStream is) throws IOException {
-		this(CharStreams.fromStream(is);
+		this(CharStreams.fromStream(is));
 	}
 	
 	@Override
@@ -49,7 +55,7 @@ public class DasmWorkerListener extends DasmBaseListener {
 	@Override
 	public void enterNooperand_instruction(Nooperand_instructionContext ctx) {
 		Token t = ctx.getStart();
-		_tempOperand = InstructionFactory.getInstance()
+		_tempInstruction = InstructionFactory.getInstance()
 				.createInstructionFromLexerConstant(t.getType(), InstructionType.NOOPERAND);
 	}
 	

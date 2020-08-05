@@ -1,2 +1,0 @@
-rootProject.name = 'leveldb-mcpe'
-include 'leveldb-mcpe-native'

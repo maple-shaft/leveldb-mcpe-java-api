@@ -36,6 +36,8 @@ dependencies {
 
 mainClassName = 'org.middlepath.dassembler.DAssemblerMain'
 
+compileJava.configure { dependsOn 'generateDAssembler' }
+
 task generateDAssembler (type: JavaExec) {
 	description = 'Generates the new DAssembler Lexer and Parser'
 	main = 'org.antlr.v4.Tool'

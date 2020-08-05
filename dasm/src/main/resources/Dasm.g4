@@ -77,7 +77,7 @@ REFERENCE_SYMBOL
 	;
 	
 IMMEDIATE_SYMBOL
-	:	{_input.LA(-1_ == ' '}? DOLLAR
+	:	{_input.LA(-1) == ' '}? DOLLAR
 	;
 	
 SEMICOLON

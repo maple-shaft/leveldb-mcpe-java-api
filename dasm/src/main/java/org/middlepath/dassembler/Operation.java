@@ -30,7 +30,7 @@ public class Operation {
 		}
 		
 		Operation a = (Operation)arg;
-		return this.bytes[0] == arg.getBytes()[0] && this.bytes[1] == arg.getBytes()[1];
+		return this.bytes[0] == a.getBytes()[0] && this.bytes[1] == a.getBytes()[1];
 	}
 	
 	@Override
