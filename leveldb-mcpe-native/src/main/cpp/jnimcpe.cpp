@@ -1,3 +1,5 @@
+#include <stdint.h>
+#include <cstdint>
 #include <jni.h>
 #include <stdio.h>
 #include <leveldb/db.h>

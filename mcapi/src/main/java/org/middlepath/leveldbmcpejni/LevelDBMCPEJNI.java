@@ -2,7 +2,7 @@ package org.middlepath.leveldbmcpejni;
 
 import java.io.FileOutputStream;
 
-import org.middlepath.leveldbmcpe.generic.ByteRetriever;
+import org.middlepath.mcapi.generic.ByteRetriever;
 
 import java.io.File;
 
