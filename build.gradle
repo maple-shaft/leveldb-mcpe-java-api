@@ -15,8 +15,8 @@ project(':dasm') {
 	}
 }
 
-project(':leveldb-mcpe') {
-	dependencies {
-		implementation project(':leveldb-mcpe-native')
-	}
+project(':mcapi') {
+	plugins { 'java' }
+	tasks { compileJava { dependsOn ':leveldb-mcpe-native:linkDebug' } }
+
 }*/

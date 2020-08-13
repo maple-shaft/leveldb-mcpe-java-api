@@ -1,5 +1,24 @@
 #include <stdint.h>
 #include <cstdint>
+
+// JNI doesn't play nice with Cygwin, this gets me past compilation but there are other issues preventing me from running
+#ifdef __CYGWIN__
+
+#ifndef _JAVASOFT_JNI_MD_H_
+#define _JAVASOFT_JNI_MD_H_
+
+#define JNIEXPORT __declspec(dllexport)
+#define JNIIMPORT __declspec(dllimport)
+#define JNICALL __stdcall
+
+typedef long jint;
+typedef long long jlong;
+typedef signed char jbyte;
+
+#endif /* !_JAVASOFT_JNI_MD_H_ */
+
+#endif /* !__CYGWIN__ */
+
 #include <jni.h>
 #include <stdio.h>
 #include <leveldb/db.h>
@@ -11,6 +30,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
 
 jbyteArray as_byte_array(JNIEnv *env, unsigned char* buf, int len) {
 	jbyteArray array = env->NewByteArray(len);

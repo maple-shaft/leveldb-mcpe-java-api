@@ -19,8 +19,5 @@ You will be able to find the source for the Mojant variant LevelDB here: [Mojang
 
 ### Considerations for Cygwin
 
-The build can be successfully executed in Windows via Cygwin, however a few considerations may need to be considered.  We will work to employ macros to better resolve some of the issues.
-
- 1. The `win32/jni_md.h` of the JDK installation may need to be tweaked to resolve the absence of `__int64` as a type when compiling in Cygwin.  For more information [see here](https://graphics-muse.org/wp/?page_id=147) .
- 2. Some casts in `jnimcpe.cpp` may not compile correctly in Cygwin.  Again, this can change with some use of macros which can be added later.
+The build can be successfully executed in Windows via Cygwin, however it just doesn't seem to run nicely with JNI.  As of right now this is looking to be a POSIX only project, at least maybe until something changes or somebody is feeling ambitious enough to work through the issues.
 
