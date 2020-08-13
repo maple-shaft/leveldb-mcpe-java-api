@@ -42,7 +42,7 @@ Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_count(JNIEnv *env, jobject thi
 {
 	leveldbmcpenative::DB *database = reinterpret_cast<leveldbmcpenative::DB*>(ptr);
 	long recordCount = database->CountRecords();
-	return reinterpret_cast<jlong>((long long)(recordCount));
+	return reinterpret_cast<jlong>(recordCount);
 }
 
 JNIEXPORT jbyteArray JNICALL
