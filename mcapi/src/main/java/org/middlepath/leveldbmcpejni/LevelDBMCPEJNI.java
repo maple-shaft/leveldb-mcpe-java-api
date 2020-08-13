@@ -15,7 +15,10 @@ public class LevelDBMCPEJNI implements ByteRetriever {
 	public native void close(long databasePointer);
 	
 	static {
+		System.loadLibrary("leveldb");
+		//System.load("C:/Users/Dustin/workspace/leveldb-mcpe/out-shared/libleveldb.so.1.20");
 		System.loadLibrary("leveldb-mcpe-native");
+		//System.load("C:/Users/Dustin/workspace/leveldb-mcpe/out-shared/libleveldb.so.1.20");
 	}
 	
 	private long databasePointer = -1;
@@ -23,7 +26,9 @@ public class LevelDBMCPEJNI implements ByteRetriever {
 	
 	public LevelDBMCPEJNI(String path) throws Exception {
 		this.dbPath = path;
+		System.out.println("!+!+!+!+!+! Database path is " + path);
 		this.databasePointer = open(this.dbPath);
+		System.out.println("!+!+!+!+!+!+! Database pointer is " + this.databasePointer);
 	}
 	
 	@Override
@@ -34,13 +39,17 @@ public class LevelDBMCPEJNI implements ByteRetriever {
 	
 	@Override
 	public byte[] get(int x, int z, int yDiv, int dim) {
-		return this.get(this.databasePointer, x, z, yDiv, dim);
+		System.out.println("!+!+!+!+!+!+!+! Sanity check, db pointer " + this.databasePointer);
+		System.out.println(x + " " + z + " " + yDiv + " " + dim);
+		byte[] ret = this.get(this.databasePointer, x, z, yDiv, dim);
+		System.out.println("Return value: " + ret[0] + " " + ret[1]);
+		return ret;
 	}
 	
 	public static void main(String[] args) throws Exception {
-		LevelDBMCPEJNI j = new LevelDBMCPEJNI("");
+		LevelDBMCPEJNI j = new LevelDBMCPEJNI("C:\\Users\\Dustin\\workspace\\thdVXmy-AAA=\\db");
 		
-		byte[] record = j.get(2, 2, 0, 0);
+		byte[] record = j.get(0, 0, 0, 0);
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(new File("output.bin"));

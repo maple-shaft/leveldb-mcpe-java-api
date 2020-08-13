@@ -1,5 +1,24 @@
 #include <stdint.h>
 #include <cstdint>
+
+// JNI doesn't play nice with Cygwin, this gets me past compilation but there are other issues preventing me from running
+#ifdef __CYGWIN__
+
+#ifndef _JAVASOFT_JNI_MD_H_
+#define _JAVASOFT_JNI_MD_H_
+
+#define JNIEXPORT __declspec(dllexport)
+#define JNIIMPORT __declspec(dllimport)
+#define JNICALL __stdcall
+
+typedef long jint;
+typedef long long jlong;
+typedef signed char jbyte;
+
+#endif /* !_JAVASOFT_JNI_MD_H_ */
+
+#endif /* !__CYGWIN__ */
+
 #include <jni.h>
 #include <stdio.h>
 #include <leveldb/db.h>
@@ -11,6 +30,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
 
 jbyteArray as_byte_array(JNIEnv *env, unsigned char* buf, int len) {
 	jbyteArray array = env->NewByteArray(len);
@@ -42,7 +63,7 @@ Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_count(JNIEnv *env, jobject thi
 {
 	leveldbmcpenative::DB *database = reinterpret_cast<leveldbmcpenative::DB*>(ptr);
 	long recordCount = database->CountRecords();
-	return reinterpret_cast<jlong>((long long)(recordCount));
+	return reinterpret_cast<jlong>(recordCount);
 }
 
 JNIEXPORT jbyteArray JNICALL

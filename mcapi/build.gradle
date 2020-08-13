@@ -5,6 +5,9 @@ plugins {
 
 ext {
 	nativePath = "${project(":leveldb-mcpe-native").buildDir}/lib/main/debug"
+	nativeAbsolutePath = file(nativePath).absolutePath
+	leveldbNativePath = "${System.getenv("LEVELDB_HOME")}/out-shared"
+	leveldbNativeAbsolutePath = file(leveldbNativePath).absolutePath
 }
 
 sourceSets {
@@ -13,6 +16,11 @@ sourceSets {
 			srcDirs = ['build/generated-sources', 'src/main/java']
 		}
 		resources { srcDirs = ['src/main/resources'] }
+	}
+	test {
+		java {
+			srcDirs = ['src/test/java']
+		}
 	}
 }
 
@@ -32,7 +40,9 @@ application {
 }
 
 test {
-	systemProperty "java.library.path", file("${project(":leveldb-mcpe-native").buildDir}/lib/main/debug").absolutePath
+	systemProperty "java.library.path", (nativeAbsolutePath + ":" + leveldbNativeAbsolutePath)
+	//systemProperty "java.library.path", file("${project(":leveldb-mcpe-native").buildDir}/lib/main/debug").absolutePath
 }
 
 compileJava.dependsOn ':leveldb-mcpe-native:linkDebug'
+

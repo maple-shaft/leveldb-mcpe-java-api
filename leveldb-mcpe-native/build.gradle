@@ -17,11 +17,15 @@ def leveldbSharedLibraryDir = leveldbHome + '/out-shared'
 // Uncomment the line below for Cygwin because symlinks don't work by default.
 def leveldbSharedLibrary = leveldbSharedLibraryDir + '/libleveldb.so.1.20'
 
+def leveldbStaticLibraryDir = leveldbHome + '/out-static'
+def leveldbStaticLibrary = leveldbStaticLibraryDir + '/libleveldb.a'
+
 // headers for leveldb
 def leveldbInclude = leveldbHome + '/include'
 
 
 library {
+	//linkage = [ Linkage.STATIC ]
 	binaries.configureEach { CppBinary binary ->
 		def compileTask = binary.compileTask.get()
 		
@@ -45,12 +49,17 @@ library {
 		if (toolChain instanceof VisualCpp) {
 			compileTask.compilerArgs.addAll(["/TC"])
 		} else if (toolChain instanceof GccCompatibleToolChain) {
-			compileTask.compilerArgs.addAll(["-std=c++11", "-DDLLX= ", "-g"])
+			compileTask.compilerArgs.addAll(["-std=c++0x", "-DDLLX= ", "-g"])
 		}
 		
+		//def createTask = binary.createTask.get()
+		//createTask.source.from(leveldbStaticLibrary)
+		//createTask.source.from("c:/cygwin64/lib/libcygwin.a")
+		//createTask.source.forEach { e -> println(e) }
+		//createTask.staticLibArgs.addAll(['-L ' + leveldbStaticLibraryDir])
 		// Configure the binaries to link
 		def linkTask = binary.linkTask.get()
 		linkTask.lib( leveldbSharedLibrary )
-		linkTask.linkerArgs.addAll(['-L ' + leveldbSharedLibraryDir])
+		//linkTask.linkerArgs.addAll(['-L ' + leveldbSharedLibraryDir])
 	}
 }
