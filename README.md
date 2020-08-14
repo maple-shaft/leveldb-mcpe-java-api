@@ -6,4 +6,8 @@ A JNI based integration of the Mojang LevelDB database, in a friendly to use Jav
 
  - LevelDB MCPE Native: is a thin C++ application that provides a direct interface to the Mojang LevelDB variant software and provides a JNI interface for Java apps.
  - MCAPI: is a generic Minecraft API that can be expanded upon for many different uses.  It utilizes the Native project to communicate with the LevelDB database files.
-  - DAssembler: A prototype assembly language that is intended to compile into machine code for 
+ - DAssembler: A prototype assembly language that is intended to compile into machine code for Redstone computers. This can be used in conjunction with MCAPI to identify and set bits within redstone memory cells within a Bedrock world, becoming a "linker" of sorts.
+ 
+### Under Development
+
+Quite a bit is not ready for general use however as interest grows I will continue to work on expanding what is available here.
