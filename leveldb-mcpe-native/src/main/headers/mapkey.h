@@ -11,6 +11,23 @@ typedef struct {
 
 #define LDBKEY_STRUCT(x, z, dim) mapkey_t{x >> 4, z >> 4, dim}
 
+#define LDBKEY_BLOCKENTITY(k, ydiv)\
+	char key[14];\
+	if (true) {\
+		char* ptr = key;\
+		*(int32_t*)ptr = k.x_div16;\
+		ptr += 4;\
+		*(int32_t*)ptr = k.z_div16;\
+		ptr += 4;\
+		if (k.dimension != 0){\
+			*(int32_t*)ptr = k.dimension;\
+			ptr += 4;\
+		}\
+		*ptr = 0x31;\
+		ptr++;\
+		*ptr = ydiv;\
+	}
+
 #define LDBKEY_SUBCHUNK(k, ydiv)\
 	char key[14];\
 	if (true) {\

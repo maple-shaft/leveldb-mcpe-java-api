@@ -20,6 +20,9 @@ public class Coordinate implements Comparable<Coordinate> {
 		this.xFactor = chunkX / 16;
 		this.zFactor = chunkZ / 16;
 		this.yFactor = chunkY / 16;
+		this.innerX = innerX;
+		this.innerZ = innerZ;
+		this.innerY = innerY;
 	}
 	
 	public Coordinate cloneWithOffset(int innerX, int innerZ, int innerY) {

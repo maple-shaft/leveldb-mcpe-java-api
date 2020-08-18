@@ -11,18 +11,20 @@ import org.middlepath.mcapi.utils.BinaryUtils;
 
 public class BlockStates implements Iterable<BlockState>, BedrockSerializable {
 
-	private List<BlockState> blockStates = new ArrayList<BlockState>(4096);
+	private List<BlockState> blockStates = null;
 	
 	private List<Long> words;
 	private int blocksPerWord;
 	
 	public BlockStates() {
 		this.words = new ArrayList<Long>();
+		this.blockStates = new ArrayList<BlockState>(4096);
 	}
 	
 	public BlockStates(List<Long> words, int blocksPerWord, int bitSize) {
 		this.words = words;
 		this.blocksPerWord = blocksPerWord;
+		this.blockStates = new ArrayList<BlockState>(4096);
 		
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
@@ -39,6 +41,9 @@ public class BlockStates implements Iterable<BlockState>, BedrockSerializable {
 					blockState.x = x;
 					blockState.z = z;
 					blockState.y = y;
+					//System.out.println("BLOCK STATES SIZEEEEEEE: " + this.blockStates.size());
+					if (specificIndex < 0 || specificIndex >= 4096)
+						System.out.println("^_^ wrong spec index: x = " + blockState.x + ", z = " + blockState.z + ", y = " + blockState.y);
 					this.blockStates.add(specificIndex, blockState);
 				}
 			}
@@ -76,7 +81,7 @@ public class BlockStates implements Iterable<BlockState>, BedrockSerializable {
 	}
 	
 	private int getWordIndex(int x, int z, int y) {
-		return getTempIndex(x,z,y) % blocksPerWord;
+		return getTempIndex(x,z,y) / blocksPerWord;
 	}
 	
 	@Override

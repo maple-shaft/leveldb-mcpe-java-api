@@ -67,11 +67,16 @@ Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_count(JNIEnv *env, jobject thi
 }
 
 JNIEXPORT jbyteArray JNICALL
-Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_get(JNIEnv *env, jobject thiz, jlong ptr, jint x, jint z, jint y, jint dim)
+Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_getSubChunk(JNIEnv *env, jobject thiz, jlong ptr, jint x, jint z, jint y, jint dim)
 {
 	leveldbmcpenative::DB *database = reinterpret_cast<leveldbmcpenative::DB*>(ptr);
 	mapkey_t key = LDBKEY_STRUCT(static_cast<int32_t>(x), static_cast<int32_t>(z), static_cast<int32_t>(dim));
-	std::string ret = database->Get(key);
+	std::string ret = database->GetSubChunk(key, reinterpret_cast<int32_t>(y));
+	if (ret == "-1")
+	{
+		return env->NewByteArray(0);
+	}
+	
 	unsigned char * retC = const_cast<unsigned char*>(reinterpret_cast<unsigned const char *>(ret.data()));
 	return as_byte_array(env, retC, ret.length());
 }

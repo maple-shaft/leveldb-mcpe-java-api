@@ -40,7 +40,8 @@ namespace leveldbmcpenative {
 			DB(const char *p);
 			~DB();
 			int Open();
-			std::string Get(mapkey_t key);
+			std::string GetSubChunk(mapkey_t key, int yDiv);
+			std::string GetBlockEntityChunk(mapkey_t key, int yDiv);
 			void Close();
 			long CountRecords();
 			void PrintDB();

@@ -68,19 +68,34 @@ long leveldbmcpenative::DB::CountRecords()
 	}
 }
 
-std::string leveldbmcpenative::DB::Get(mapkey_t k)
+std::string leveldbmcpenative::DB::GetBlockEntityChunk(mapkey_t k, int yDiv)
 {
 	if (database)
 	{
-		LDBKEY_SUBCHUNK(k, 0);
+		LDBKEY_BLOCKENTITY(k, yDiv);
 		std::string str;
+		char ver;
 		leveldb::Slice sl = leveldb::Slice(key, k.dimension == 0 ? 10 : 14);
 		status = database->Get(readOptions, sl, &str);
 		return str;
 	}
-	else
+	return "-1";
+}
+
+std::string leveldbmcpenative::DB::GetSubChunk(mapkey_t k, int yDiv)
+{
+	if (database)
 	{
-		return "-1";
+		LDBKEY_SUBCHUNK(k, yDiv);
+		std::string str;
+		leveldb::Slice sl = leveldb::Slice(key, k.dimension == 0 ? 10 : 14);
+		status = database->Get(readOptions, sl, &str);
+		if (!status.ok())
+		{
+			return "-1";
+		} else {
+			return str;
+		}
 	}
 	return "-1";
 }
