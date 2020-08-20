@@ -4,6 +4,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 import org.middlepath.mcapi.block.Element;
 
+/**
+ * A visitor that composes a transforming visitor and one or more filtering actions.
+ * 
+ * @author DAB
+ *
+ * @param <T>
+ */
 public class FilteringElementTransformingVisitor<T extends Element> extends ElementTransformingVisitor<T> {
 
 	private LinkedList<FilterAction<T>> filters = new LinkedList<FilterAction<T>>();

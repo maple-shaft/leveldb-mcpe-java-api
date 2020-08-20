@@ -157,4 +157,16 @@ public class Coordinate implements Comparable<Coordinate> {
 	public void setYFactor(int yFactor) {
 		this.yFactor = yFactor;
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Coordinate c = new Coordinate(
+				this.getChunkX(),
+				this.getChunkZ(),
+				(this.getYFactor() * 16),
+				this.getInnerX(),
+				this.getInnerZ(),
+				this.getInnerY());
+		return c;
+	}
 }
