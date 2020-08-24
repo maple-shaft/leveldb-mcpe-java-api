@@ -26,6 +26,18 @@ public class PaletteItem implements BedrockSerializable {
 		this.version = version;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <R extends NBTTag<?>> R getStateByName(final Class<R> clazz, final String name) {
+		if (!NBTTagType.TAG_COMPOUND.equals(statesType))
+			return null;
+		
+		List<NBTTag<?>> statesList = (List<NBTTag<?>>) states;
+		return statesList.stream()
+				.filter(t -> t.getName().equals(name))
+				.map(t -> clazz.cast(t))
+				.findAny().get();
+	}
+	
 	public BlockType getBlockType() {
 		return this.blockType;
 	}

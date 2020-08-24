@@ -67,7 +67,7 @@ public class PaletteItemFactory {
 				blockVersionTagOpt.isPresent()) {
 			String blockTypeName = (String)(blockTypeTagOpt.get().getValue());
 			int version = (Integer)(blockVersionTagOpt.get().getValue());
-			Object states = blockStatesTagOpt.get().getType();
+			Object states = blockStatesTagOpt.get().getValue();
 			NBTTagType statesType = blockStatesTagOpt.get().getType();
 			return new PaletteItem(blockTypeName, statesType, states, version);
 		} else {

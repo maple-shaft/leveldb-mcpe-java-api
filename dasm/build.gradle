@@ -30,6 +30,7 @@ dependencies {
 	compile 'commons-io:commons-io:2.6'
 	compile 'info.picocli:picocli:4.2.0'
 	compile 'org.antlr:antlr4:4.7.2'
+	compile project(':mcapi')
 	antlrConfig 'org.antlr:antlr4:4.7.2'
 	testCompile 'junit:junit:4.13'
 }
