@@ -1,6 +1,9 @@
 package org.middlepath;
 
 import org.junit.Test;
+import org.middlepath.dassembler.linker.ExampleMemoryCell;
+import org.middlepath.dassembler.linker.ExampleMemoryWordGrouper;
+import org.middlepath.dassembler.linker.ExampleMemoryWordTuple;
 import org.middlepath.dassembler.linker.MemoryCellFilter;
 import org.middlepath.leveldbmcpejni.LevelDBMCPEJNI;
 import org.middlepath.mcapi.block.SubChunkBlock;
@@ -13,6 +16,9 @@ import org.middlepath.mcapi.visitor.GroupingVisitor;
 import org.middlepath.mcapi.visitor.NoAction;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.After;
 import org.junit.Before;
@@ -49,5 +55,13 @@ public class TestMemoryCellFilter {
 		groupVisitor.visit(bg);
 		
 		assertNotNull(filteringVisitor.getFilterResultCache());
+		
+		List<ExampleMemoryCell> cells = filteringVisitor.getFilterResultCache().stream()
+				.map(s -> ExampleMemoryCell.createMemoryCell(s, bg))
+				.collect(Collectors.toList());
+		assertNotNull(cells);
+		
+		List<ExampleMemoryWordTuple> tuples = ExampleMemoryWordGrouper.groupTuples(cells);
+		assertNotNull(tuples);
 	}
 }
