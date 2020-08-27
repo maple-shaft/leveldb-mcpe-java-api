@@ -59,17 +59,17 @@ public class ExampleMemoryWordTuple implements Comparable<ExampleMemoryWordTuple
 	}
 	
 	/**
-	 * The Address and Data Words for this build happen to be on the same X coordinate row.  That is how we 
+	 * The Address and Data Words for this build happen to be on the same Z coordinate row.  That is how we 
 	 * can correlate them
 	 * 
 	 * @return
 	 */
-	public Integer getXRow() {
+	public Integer getZRow() {
 		if (words[0] == null && words[1] == null)
 			return null;
 		
 		ExampleMemoryWord someWord = (getAddressWord() == null) ? getDataWord() : getAddressWord();
-		return someWord.getXRow();
+		return someWord.getZRow();
 	}
 	
 	@Override

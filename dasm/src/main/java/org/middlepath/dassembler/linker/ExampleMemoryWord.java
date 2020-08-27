@@ -28,7 +28,7 @@ public class ExampleMemoryWord extends MemoryWord<SubChunkBlock, Byte> {
 	 * 
 	 * @return
 	 */
-	public int getXRow() {
+	public int getZRow() {
 		return getAnyCell().getRowIndex();
 	}
 	

@@ -29,21 +29,38 @@ public class ExampleMemoryCell implements MemoryCell<SubChunkBlock> {
 			Coordinate lNeighborCoord = (Coordinate)contextObject.getCoordinate().clone();
 			lNeighborCoord.setGlobalX(lNeighborCoord.getGlobalX() + 1);
 			SubChunkBlock lNeighbor = bg.getLocatable(lNeighborCoord);
+			String neighborState = getTorchState(lNeighbor);
 			
-			Coordinate rNeighborCoord = (Coordinate)contextObject.getCoordinate().clone();
-			rNeighborCoord.setGlobalX(rNeighborCoord.getGlobalX() -1);
-			SubChunkBlock rNeighbor = bg.getLocatable(rNeighborCoord);
-			
-			String lState = getTorchState(lNeighbor);
-			String rState = getTorchState(rNeighbor);
-			
-			if (rState == null && lState != null && tState.equals("west") && lState.equals("east")) {
-				ret = new ExampleMemoryCell(contextObject, true);
-			} else if (lState == null && rState != null && tState.equals("east") && rState.equals("west")) {
-				ret = new ExampleMemoryCell(contextObject, false);
-			} else {
-				return null;
+			if (neighborState == null) {
+				Coordinate rNeighborCoord = (Coordinate)contextObject.getCoordinate().clone();
+				rNeighborCoord.setGlobalX(rNeighborCoord.getGlobalX() -1);
+				SubChunkBlock rNeighbor = bg.getLocatable(rNeighborCoord);
+				neighborState = getTorchState(rNeighbor);
 			}
+			
+			if (neighborState == null)
+				return null;
+			
+			if (tState.equals("west") && neighborState.equals("east")) {
+				// If the block above and to the right is a concrete then it is an address torch
+				Coordinate c = (Coordinate)contextObject.getCoordinate().clone();
+				c.setGlobalY(c.getGlobalY() + 1);
+				c.setGlobalX(c.getGlobalX() - 1);
+				SubChunkBlock s = bg.getLocatable(c);
+				if (BlockType.CONCRETE == s.getBlockType()) {
+					ret = new ExampleMemoryCell(contextObject, true);
+				}
+			}
+			if (tState.equals("east") && neighborState.equals("west")) {
+				// If the block above and to the left is a concrete then it is a data torch
+				Coordinate c = (Coordinate)contextObject.getCoordinate().clone();
+				c.setGlobalY(c.getGlobalY() + 1);
+				c.setGlobalX(c.getGlobalX() + 1);
+				SubChunkBlock s = bg.getLocatable(c);
+				if (BlockType.CONCRETE == s.getBlockType()) {
+					ret = new ExampleMemoryCell(contextObject, false);
+				}
+			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -70,7 +87,7 @@ public class ExampleMemoryCell implements MemoryCell<SubChunkBlock> {
 	 * @return
 	 */
 	public int getRowIndex() {
-		return getContextObject().getX();
+		return getContextObject().getCoordinate().getGlobalZ();
 	}
 
 	@Override

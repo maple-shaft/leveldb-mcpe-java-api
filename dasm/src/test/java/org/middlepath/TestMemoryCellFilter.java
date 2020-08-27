@@ -38,11 +38,14 @@ public class TestMemoryCellFilter {
 		j = null;
 		System.gc();
 	}
-	
+		
 	@Test
 	public void testMemoryCell() throws Exception {
-		Coordinate c1 = new Coordinate(75, 48, 0);
-		Coordinate c2 = new Coordinate(90, 63, 15);
+		//Coordinate c1 = new Coordinate(75, 48, 0);
+		//Coordinate c2 = new Coordinate(90, 63, 15);
+		Coordinate c1 = new Coordinate(58, 54, 6);
+		Coordinate c2 = new Coordinate(178, 90, 15);
+		
 		CompleteChunkFactory factory = new CompleteChunkFactory(j);
 		ElementSource bs = new ElementSource(factory);
 		final BlockGrouping<SubChunkBlock> bg = new BlockGrouping<SubChunkBlock>(bs, "cell_loc1", c1, c2);
