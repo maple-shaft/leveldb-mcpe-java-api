@@ -16,7 +16,7 @@ import org.middlepath.mcapi.redstoneutils.MemoryCell;
 public class ExampleMemoryCell implements MemoryCell<SubChunkBlock> {
 
 	private final SubChunkBlock contextObject;
-	private final boolean addressFlag;
+	private final boolean instructionFlag;
 	
 	public static ExampleMemoryCell createMemoryCell(SubChunkBlock contextObject, BlockGrouping<SubChunkBlock> bg) {
 		ExampleMemoryCell ret = null;
@@ -67,13 +67,13 @@ public class ExampleMemoryCell implements MemoryCell<SubChunkBlock> {
 		return ret;
 	}
 	
-	private ExampleMemoryCell(SubChunkBlock contextObject, boolean addressFlag) {
+	private ExampleMemoryCell(SubChunkBlock contextObject, boolean instructionFlag) {
 		this.contextObject = contextObject;
-		this.addressFlag = addressFlag;		
+		this.instructionFlag = instructionFlag;
 	}
 	
-	public boolean isAddress() {
-		return this.addressFlag;
+	public boolean isInstruction() {
+		return this.instructionFlag;
 	}
 	
 	@Override
@@ -112,5 +112,10 @@ public class ExampleMemoryCell implements MemoryCell<SubChunkBlock> {
 	
 	public boolean isValid() {
 		return !(getTorchState(this.contextObject) == null);
+	}
+
+	@Override
+	public void setValue(boolean bit) {
+		this.contextObject.getPaletteItem().blockType = (bit) ? BlockType.REDSTONE_TORCH : BlockType.UNLIT_REDSTONE_TORCH;
 	}
 }

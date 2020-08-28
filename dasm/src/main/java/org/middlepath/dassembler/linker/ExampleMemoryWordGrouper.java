@@ -11,13 +11,13 @@ public class ExampleMemoryWordGrouper {
 		return cell.getRowIndex();
 	}
 	
-	public static Boolean mapByAddress(ExampleMemoryCell cell) {
-		return cell.isAddress();
+	public static Boolean mapByInstruction(ExampleMemoryCell cell) {
+		return cell.isInstruction();
 	}
 	
 	public static ExampleMemoryWordTuple createTupleFromWordCells(Collection<ExampleMemoryCell> cells) {
 		Map<Boolean, List<ExampleMemoryCell>> cellsByPart = 
-				cells.stream().collect(Collectors.groupingBy(ExampleMemoryWordGrouper::mapByAddress));
+				cells.stream().collect(Collectors.groupingBy(ExampleMemoryWordGrouper::mapByInstruction));
 		ExampleMemoryWordTuple tuple = new ExampleMemoryWordTuple(
 				cellsByPart.values().stream()
 					.map(v -> new ExampleMemoryWord(v)).collect(Collectors.toList()));

@@ -7,9 +7,9 @@ import java.util.List;
 import org.middlepath.mcapi.block.SubChunkBlock;
 import org.middlepath.mcapi.redstoneutils.Endian;
 import org.middlepath.mcapi.redstoneutils.MemoryCell;
-import org.middlepath.mcapi.redstoneutils.MemoryWord;
+import org.middlepath.mcapi.redstoneutils.AbstractMemoryWord;
 
-public class ExampleMemoryWord extends MemoryWord<SubChunkBlock, Byte> {
+public class ExampleMemoryWord extends AbstractMemoryWord<SubChunkBlock, Byte> {
 	
 	public ExampleMemoryWord(Collection<MemoryCell<SubChunkBlock>> cells) {
 		super(cells);
@@ -32,8 +32,8 @@ public class ExampleMemoryWord extends MemoryWord<SubChunkBlock, Byte> {
 		return getAnyCell().getRowIndex();
 	}
 	
-	public boolean isAddressWord() {
-		return getAnyCell().isAddress();
+	public boolean isInstructionWord() {
+		return getAnyCell().isInstruction();
 	}
 
 	@Override
@@ -56,8 +56,11 @@ public class ExampleMemoryWord extends MemoryWord<SubChunkBlock, Byte> {
 
 	@Override
 	public Endian getEndianness() {
-		ExampleMemoryCell anyCell = getAnyCell();
-		return (anyCell.isAddress()) ? Endian.LITTLE_ENDIAN : Endian.BIG_ENDIAN;
+		//Pretty sure that the bit order is always Big Endian
+		return Endian.BIG_ENDIAN;
+		
+		//ExampleMemoryCell anyCell = getAnyCell();
+		//return (anyCell.isInstruction()) ? Endian.LITTLE_ENDIAN : Endian.BIG_ENDIAN;
 	}
 
 }

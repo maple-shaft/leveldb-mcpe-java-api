@@ -23,4 +23,11 @@ public interface MemoryCell<T extends Locatable> {
 	 * @return A boolean representing the data persisted by the memory cell.
 	 */
 	boolean getValue();
+	
+	/**
+	 * Sets the value of a memory cell to a bit.
+	 * 
+	 * @param bit
+	 */
+	void setValue(boolean bit);
 }
