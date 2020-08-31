@@ -9,7 +9,7 @@ import org.middlepath.mcapi.redstoneutils.Endian;
 import org.middlepath.mcapi.redstoneutils.MemoryCell;
 import org.middlepath.mcapi.redstoneutils.AbstractMemoryWord;
 
-public class ExampleMemoryWord extends AbstractMemoryWord<SubChunkBlock, Byte> {
+public class ExampleMemoryWord extends AbstractMemoryWord<SubChunkBlock, Byte, Integer> {
 	
 	public ExampleMemoryWord(Collection<MemoryCell<SubChunkBlock>> cells) {
 		super(cells);
@@ -61,6 +61,11 @@ public class ExampleMemoryWord extends AbstractMemoryWord<SubChunkBlock, Byte> {
 		
 		//ExampleMemoryCell anyCell = getAnyCell();
 		//return (anyCell.isInstruction()) ? Endian.LITTLE_ENDIAN : Endian.BIG_ENDIAN;
+	}
+
+	@Override
+	public Integer getAddressableKey() {
+		return this.getZRow();
 	}
 
 }

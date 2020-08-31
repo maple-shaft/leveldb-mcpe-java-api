@@ -1,16 +1,31 @@
 package org.middlepath.dassembler.linker;
 
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-public class ExampleMemoryModule implements Comparable<ExampleMemoryWord> {
+import org.middlepath.mcapi.block.SubChunkBlock;
+import org.middlepath.mcapi.redstoneutils.AbstractMemoryWordPairModule;
 
-	private HashMap<Integer, ExampleMemoryWord> words = new HashMap<Integer, ExampleMemoryWord>();
+public class ExampleMemoryModule extends AbstractMemoryWordPairModule<
+		SubChunkBlock,
+		Byte,
+		Integer,
+		ExampleMemoryWord,
+		ExampleMemoryWordTuple> {
+
 	
-	@Override
-	public int compareTo(ExampleMemoryWord o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public static Integer mapRowIndex(ExampleMemoryCell cell) {
+		return cell.getRowIndex();
 	}
-
 	
+	public static Boolean mapByInstruction(ExampleMemoryCell cell) {
+		return cell.isInstruction();
+	}
+	
+	public ExampleMemoryModule(Collection<ExampleMemoryCell> cells) {
+		super();
+		cells.stream().collect(Collectors.groupingBy(c -> c.getRowIndex()))
+				.values().stream().map(ExampleMemoryWordTuple::new)
+				.forEach(this::put);
+	}
 }

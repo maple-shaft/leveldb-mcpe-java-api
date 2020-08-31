@@ -1,6 +1,6 @@
 package org.middlepath.mcapi.redstoneutils;
 
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.middlepath.mcapi.generic.Locatable;
@@ -11,7 +11,7 @@ public abstract class AbstractMemoryWordPairModule<
 		K extends Comparable<K>,
 		R extends AbstractMemoryWord<T,S,K>,
 		Q extends AbstractMemoryWordPair<T,S,K,R>>
-		implements Comparator<R> {
+		implements MemoryModule<T,S,K,R> {
 
 	protected HashMap<K, Q> words = new HashMap<>();
 	
@@ -33,6 +33,10 @@ public abstract class AbstractMemoryWordPairModule<
 		return words.get(key);
 	}
 	
+	public void putAll(Collection<Q> wordPairs) {
+		wordPairs.forEach(this::put);
+	}
+	
 	@Override
 	public int compare(R o1, R o2) {
 		K firstK = (o1 == null) ? null : o1.getAddressableKey();
@@ -44,5 +48,12 @@ public abstract class AbstractMemoryWordPairModule<
 		return (firstK == null) ? secondK.compareTo(firstK) : firstK.compareTo(secondK);
 	}
 	
-	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("Memory Module: [\n\t");
+		words.entrySet().forEach(w -> sb.append("[ Key: " + w.getKey() + ", Value: " + w.getValue() + "]\n"));
+		sb.append("]");
+		return sb.toString();
+	}
 }

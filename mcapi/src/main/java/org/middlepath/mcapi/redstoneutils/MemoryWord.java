@@ -5,6 +5,15 @@ import java.util.Comparator;
 
 import org.middlepath.mcapi.generic.Locatable;
 
+/**
+ * Defines a Word in a redstone memory module.
+ * 
+ * @author DAB
+ *
+ * @param <T> Some Locatable element (Eg. a SubChunkBlock)
+ * @param <S> A Java type that represents the value of this Word instance.
+ * @param <K> A Comparable type that can uniquely identify the address or key to this Word instance.
+ */
 public interface MemoryWord<T extends Locatable, S extends Number, K extends Comparable<K>> extends Comparator<MemoryCell<T>> {
 
 	/**

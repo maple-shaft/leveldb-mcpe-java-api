@@ -2,7 +2,7 @@ package org.middlepath;
 
 import org.junit.Test;
 import org.middlepath.dassembler.linker.ExampleMemoryCell;
-import org.middlepath.dassembler.linker.ExampleMemoryWordGrouper;
+import org.middlepath.dassembler.linker.ExampleMemoryModule;
 import org.middlepath.dassembler.linker.ExampleMemoryWordTuple;
 import org.middlepath.dassembler.linker.MemoryCellFilter;
 import org.middlepath.leveldbmcpejni.LevelDBMCPEJNI;
@@ -64,7 +64,10 @@ public class TestMemoryCellFilter {
 				.collect(Collectors.toList());
 		assertNotNull(cells);
 		
-		List<ExampleMemoryWordTuple> tuples = ExampleMemoryWordGrouper.groupTuples(cells);
-		assertNotNull(tuples);
+		ExampleMemoryModule module = new ExampleMemoryModule(cells);
+		assertNotNull(module);
+		System.out.println(module);
+		//List<ExampleMemoryWordTuple> tuples = ExampleMemoryWordGrouper.groupTuples(cells);
+		//assertNotNull(tuples);
 	}
 }

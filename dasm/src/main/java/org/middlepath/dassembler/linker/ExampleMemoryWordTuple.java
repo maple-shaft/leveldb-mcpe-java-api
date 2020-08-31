@@ -2,14 +2,17 @@ package org.middlepath.dassembler.linker;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.middlepath.mcapi.block.SubChunkBlock;
 import org.middlepath.mcapi.redstoneutils.AbstractMemoryWordPair;
 
-public class ExampleMemoryWordTuple extends AbstractMemoryWordPair<SubChunkBlock, Byte, ExampleMemoryWord> {
+public class ExampleMemoryWordTuple extends AbstractMemoryWordPair<SubChunkBlock, Byte, Integer, ExampleMemoryWord> {
 	
 	public ExampleMemoryWordTuple() {
-		this(null, null);
+		super();
 	}
 	
 	public ExampleMemoryWordTuple(ExampleMemoryWord instructionWord, ExampleMemoryWord dataWord) {
@@ -27,6 +30,20 @@ public class ExampleMemoryWordTuple extends AbstractMemoryWordPair<SubChunkBlock
 				this.dataWord = w;
 			}
 		}
+	}
+	
+	/**
+	 * Takes a collection of cells that are all on the same address and splits them by instruction.
+	 * 
+	 * @param clazz
+	 * @param cells
+	 */
+	public ExampleMemoryWordTuple(List<ExampleMemoryCell> cells) {
+		super();
+		Map<Boolean, List<ExampleMemoryCell>> cellsByPart = 
+				cells.stream().collect(Collectors.groupingBy(c -> c.isInstruction()));
+		this.instructionWord = new ExampleMemoryWord(cellsByPart.get(true));
+		this.dataWord = new ExampleMemoryWord(cellsByPart.get(false));
 	}
 	
 	/**

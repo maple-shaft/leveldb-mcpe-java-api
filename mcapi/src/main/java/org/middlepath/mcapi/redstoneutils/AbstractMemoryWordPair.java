@@ -6,7 +6,7 @@ public abstract class AbstractMemoryWordPair<
 		T extends Locatable,
 		S extends Number,
 		K extends Comparable<K>,
-		R extends AbstractMemoryWord<T, S, K>> {
+		R extends AbstractMemoryWord<T, S, K>> implements MemoryWordPair<T,S,K,R> {
 
 	protected R instructionWord = null;
 	protected R dataWord = null;
