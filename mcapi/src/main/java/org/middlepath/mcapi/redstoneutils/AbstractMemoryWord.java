@@ -39,4 +39,14 @@ public abstract class AbstractMemoryWord<T extends Locatable, S extends Number, 
 		return getMemoryCells().stream().map(t -> t.getContextObject()).collect(Collectors.toList());
 	}
 	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer("\tMemory Word : (Key: ");
+		sb.append(this.getAddressableKey());
+		sb.append(", Value: ");
+		sb.append(this.getValue());
+		sb.append(")\n");
+		return sb.toString();
+	}
+	
 }

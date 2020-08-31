@@ -53,11 +53,9 @@ public class ExampleMemoryWordTuple extends AbstractMemoryWordPair<SubChunkBlock
 	 * @return
 	 */
 	public Integer getZRow() {
-		if (getInstructionWord() == null && getDataWord() == null)
-			return null;
-		
-		ExampleMemoryWord someWord = (getInstructionWord() == null) ? getDataWord() : getInstructionWord();
-		return someWord.getZRow();
+		return this.getAnyWord().getZRow();
 	}
+
+	
 
 }

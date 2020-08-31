@@ -70,4 +70,9 @@ public class TestMemoryCellFilter {
 		//List<ExampleMemoryWordTuple> tuples = ExampleMemoryWordGrouper.groupTuples(cells);
 		//assertNotNull(tuples);
 	}
+	
+	@Test
+	public void testMemoryLink() throws Exception {
+		
+	}
 }

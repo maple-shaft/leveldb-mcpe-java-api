@@ -51,6 +51,13 @@ public interface MemoryWord<T extends Locatable, S extends Number, K extends Com
 	S getValue();
 	
 	/**
+	 * Sets the value of this Word to the value of S.
+	 * 
+	 * @param word
+	 */
+	void setValue(S word);
+	
+	/**
 	 * Some value that uniquely identifies this word, basically an address.
 	 * 
 	 * @return

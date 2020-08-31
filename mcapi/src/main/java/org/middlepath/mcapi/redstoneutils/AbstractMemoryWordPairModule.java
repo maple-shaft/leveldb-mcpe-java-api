@@ -1,7 +1,7 @@
 package org.middlepath.mcapi.redstoneutils;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import org.middlepath.mcapi.generic.Locatable;
 
@@ -13,10 +13,9 @@ public abstract class AbstractMemoryWordPairModule<
 		Q extends AbstractMemoryWordPair<T,S,K,R>>
 		implements MemoryModule<T,S,K,R> {
 
-	protected HashMap<K, Q> words = new HashMap<>();
+	protected TreeMap<K, Q> words = new TreeMap<>();
 	
 	public AbstractMemoryWordPairModule() {
-		
 	}
 	
 	public void put(Q word) {

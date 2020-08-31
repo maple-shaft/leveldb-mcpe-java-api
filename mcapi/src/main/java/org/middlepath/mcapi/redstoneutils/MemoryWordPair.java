@@ -19,6 +19,8 @@ public interface MemoryWordPair<
 		K extends Comparable<K>,
 		R extends MemoryWord<T, S, K>> {
 	
+	public R getAnyWord();
+	
 	/**
 	 * Get the Instruction Word of this pair.
 	 * 

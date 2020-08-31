@@ -48,10 +48,22 @@ public class ExampleMemoryWord extends AbstractMemoryWord<SubChunkBlock, Byte, I
 		Iterator<MemoryCell<SubChunkBlock>> iterator = this.getMemoryCells().iterator();
 		int retInt = 0;
 		for (int i = 0; i < 8; i++) {
+			if (!iterator.hasNext())
+				return (byte) retInt;
 			int bit = (iterator.next().getValue()) ? 1 : 0;
-			retInt = (retInt << 1) | bit;
+			retInt |= (bit << i);
 		}
 		return (byte)retInt;
+	}
+	
+	@Override
+	public void setValue(Byte word) {
+		Iterator<MemoryCell<SubChunkBlock>> iterator = this.getMemoryCells().iterator();
+		int temp = word;
+		for (int i = 0; i < 8; i++) {
+			boolean bit = (((temp >>> i) & 1) == 1);
+			iterator.next().setValue(bit);
+		}
 	}
 
 	@Override

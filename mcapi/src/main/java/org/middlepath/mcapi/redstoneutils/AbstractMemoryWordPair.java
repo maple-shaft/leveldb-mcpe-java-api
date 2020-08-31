@@ -37,6 +37,15 @@ public abstract class AbstractMemoryWordPair<
 	}
 	
 	@Override
+	public R getAnyWord() {
+		R i = getInstructionWord();
+		R d = getDataWord();
+		if (i == null && d == null)
+			return null;
+		return (i == null) ? d : i;
+	}
+	
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer("Memory Tuple: [");
 		sb.append(getInstructionWord());
