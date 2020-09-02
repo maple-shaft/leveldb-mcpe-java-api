@@ -2,6 +2,7 @@ package org.middlepath.mcapi.palette;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.middlepath.mcapi.generic.BedrockSerializable;
 import org.middlepath.mcapi.utils.BinaryUtils;
@@ -18,7 +19,21 @@ public class BlockStoragePalette extends ArrayList<PaletteItem> implements Bedro
 	}
 	
 	public BlockStoragePalette(int size) {
-		super(size);
+		super();
+	}
+	
+	@Override
+	public void add(int index, PaletteItem element) {
+		if (this.contains(element))
+			return;
+		super.add(index, element);
+	}
+	
+	@Override
+	public boolean add(PaletteItem e) {
+		if (this.contains(e))
+			return false;
+		return super.add(e);
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package org.middlepath;
 
 import org.junit.Test;
+import org.middlepath.dassembler.linker.DAssemblerLinker;
 import org.middlepath.dassembler.linker.ExampleMemoryCell;
 import org.middlepath.dassembler.linker.ExampleMemoryModule;
 import org.middlepath.dassembler.linker.ExampleMemoryWordTuple;
@@ -17,6 +18,7 @@ import org.middlepath.mcapi.visitor.NoAction;
 
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,6 +68,15 @@ public class TestMemoryCellFilter {
 		
 		ExampleMemoryModule module = new ExampleMemoryModule(cells);
 		assertNotNull(module);
+
+		Iterator<ExampleMemoryWordTuple> it = module.iterator();
+		while(it.hasNext()) {
+			ExampleMemoryWordTuple t = it.next();
+			t.getInstructionWord().setValue((byte)1);
+			t.getDataWord().setValue((byte)2);
+			System.out.println(t.getInstructionWord().getValue());
+			System.out.println(t.getDataWord().getValue());
+		}
 		System.out.println(module);
 		//List<ExampleMemoryWordTuple> tuples = ExampleMemoryWordGrouper.groupTuples(cells);
 		//assertNotNull(tuples);
@@ -73,6 +84,9 @@ public class TestMemoryCellFilter {
 	
 	@Test
 	public void testMemoryLink() throws Exception {
+		Coordinate c1 = new Coordinate(58, 54, 6);
+		Coordinate c2 = new Coordinate(178, 90, 15);
+		DAssemblerLinker linker = new DAssemblerLinker(j, c1, c2);
 		
 	}
 }

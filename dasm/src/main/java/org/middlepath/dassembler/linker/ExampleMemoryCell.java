@@ -92,7 +92,7 @@ public class ExampleMemoryCell implements MemoryCell<SubChunkBlock> {
 
 	@Override
 	public boolean getValue() {
-		return BlockType.REDSTONE_TORCH.equals(this.contextObject.getBlockType());
+		return BlockType.UNLIT_REDSTONE_TORCH.equals(this.contextObject.getBlockType());
 	}
 	
 	public static boolean isTorch(SubChunkBlock t) {
@@ -116,6 +116,6 @@ public class ExampleMemoryCell implements MemoryCell<SubChunkBlock> {
 
 	@Override
 	public void setValue(boolean bit) {
-		this.contextObject.getPaletteItem().blockType = (bit) ? BlockType.REDSTONE_TORCH : BlockType.UNLIT_REDSTONE_TORCH;
+		this.contextObject.setBlockType(((bit) ? BlockType.UNLIT_REDSTONE_TORCH : BlockType.REDSTONE_TORCH));
 	}
 }

@@ -20,12 +20,16 @@ public class PaletteItem implements BedrockSerializable {
 	public int version;
 	
 	public PaletteItem(String name, NBTTagType statesType, Object states, int version) {
-		this.blockType = BlockType.findBlockType(name);
+		this(BlockType.findBlockType(name), statesType, states, version);
+	}
+	
+	public PaletteItem(BlockType type, NBTTagType statesType, Object states, int version) {
+		this.blockType = type;
 		this.statesType = statesType;
 		this.states = states;
 		this.version = version;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <R extends NBTTag<?>> R getStateByName(final Class<R> clazz, final String name) {
 		if (!NBTTagType.TAG_COMPOUND.equals(statesType))
@@ -67,6 +71,15 @@ public class PaletteItem implements BedrockSerializable {
 				", State Type - " + this.statesType + 
 				", State Value - " + this.states.toString() + 
 				", Version - " + this.version;
+	}
+	
+	public PaletteItem clone() {
+		PaletteItem ret = new PaletteItem(
+				this.getBlockType(),
+				this.statesType,
+				this.states,
+				this.version);
+		return ret;
 	}
 	
 	@SuppressWarnings("unchecked")

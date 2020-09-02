@@ -47,11 +47,19 @@ public class SubChunkBlock extends Element implements BedrockSerializable {
 	}
 	
 	public void setPaletteItem(PaletteItem paletteItem) {
-		//TODO will implement;
+		this.blockStoragePalette.add(paletteItem);
+		// now set the block state index in case it changes
+		this.blockState.paletteIndex = this.blockStoragePalette.indexOf(paletteItem);
 	}
 	
 	public BlockType getBlockType() {
 		return this.getPaletteItem().getBlockType();
+	}
+	
+	public void setBlockType(BlockType type) {
+		PaletteItem item = getPaletteItem().clone();
+		item.blockType = type;
+		this.setPaletteItem(item);
 	}
 	
 	@Override

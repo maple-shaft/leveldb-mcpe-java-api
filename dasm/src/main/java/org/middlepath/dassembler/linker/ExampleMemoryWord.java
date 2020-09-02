@@ -40,7 +40,10 @@ public class ExampleMemoryWord extends AbstractMemoryWord<SubChunkBlock, Byte, I
 	public int compare(MemoryCell<SubChunkBlock> o1, MemoryCell<SubChunkBlock> o2) {
 		SubChunkBlock s1 = o1.getContextObject();
 		SubChunkBlock s2 = o2.getContextObject();
-		return s2.getCoordinate().getGlobalX() - s1.getCoordinate().getGlobalX();
+		if (getEndianness() == Endian.BIG_ENDIAN)
+			return s2.getCoordinate().getGlobalX() - s1.getCoordinate().getGlobalX();
+		else
+			return s1.getCoordinate().getGlobalX() - s2.getCoordinate().getGlobalX();
 	}
 
 	@Override
@@ -61,6 +64,8 @@ public class ExampleMemoryWord extends AbstractMemoryWord<SubChunkBlock, Byte, I
 		Iterator<MemoryCell<SubChunkBlock>> iterator = this.getMemoryCells().iterator();
 		int temp = word;
 		for (int i = 0; i < 8; i++) {
+			if (!iterator.hasNext())
+				break;
 			boolean bit = (((temp >>> i) & 1) == 1);
 			iterator.next().setValue(bit);
 		}
@@ -69,10 +74,10 @@ public class ExampleMemoryWord extends AbstractMemoryWord<SubChunkBlock, Byte, I
 	@Override
 	public Endian getEndianness() {
 		//Pretty sure that the bit order is always Big Endian
-		return Endian.BIG_ENDIAN;
+		//return Endian.BIG_ENDIAN;
 		
-		//ExampleMemoryCell anyCell = getAnyCell();
-		//return (anyCell.isInstruction()) ? Endian.LITTLE_ENDIAN : Endian.BIG_ENDIAN;
+		ExampleMemoryCell anyCell = getAnyCell();
+		return (anyCell.isInstruction()) ? Endian.BIG_ENDIAN : Endian.LITTLE_ENDIAN;
 	}
 
 	@Override
