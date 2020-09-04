@@ -12,6 +12,11 @@ public enum BlockType {
 	POWERED_REPEATER("minecraft:powered_repeater"),
 	REDSTONE_TORCH("minecraft:redstone_torch"),
 	UNLIT_REDSTONE_TORCH("minecraft:unlit_redstone_torch"),
+	STAINED_GLASS("minecraft:stained_glass"),
+	GLASS("minecraft:glass"),
+	STRUCTURE_BLOCK("minecraft:structure_block"),
+	REDSTONE_LAMP("minecraft:redstone_lamp"),
+	LIT_REDSTONE_LAMP("minecraft:lit_redstone_lamp"),
 	LEVER("minecraft:lever");
 	
 	BlockType(String name) {

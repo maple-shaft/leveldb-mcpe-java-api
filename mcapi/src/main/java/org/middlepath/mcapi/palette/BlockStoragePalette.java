@@ -24,14 +24,14 @@ public class BlockStoragePalette extends ArrayList<PaletteItem> implements Bedro
 	
 	@Override
 	public void add(int index, PaletteItem element) {
-		if (this.contains(element))
+		if (this.contains(element) || element.getBlockType() == null)
 			return;
 		super.add(index, element);
 	}
 	
 	@Override
 	public boolean add(PaletteItem e) {
-		if (this.contains(e))
+		if (this.contains(e) || e.getBlockType() == null)
 			return false;
 		return super.add(e);
 	}
