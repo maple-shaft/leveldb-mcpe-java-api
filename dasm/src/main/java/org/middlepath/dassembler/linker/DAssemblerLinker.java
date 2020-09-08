@@ -53,4 +53,31 @@ public class DAssemblerLinker {
 			tuple.getDataWord().setValue(programBytes[i+1]);
 		}
 	}
+	
+	public byte[] getMemoryContentsOfModule() {
+		Iterator<ExampleMemoryWordTuple> iterator = this.module.iterator();
+		ByteArrayOutputStream bos = null;
+		try {
+			bos = new ByteArrayOutputStream();
+			while (iterator.hasNext()) {
+				ExampleMemoryWordTuple t = iterator.next();
+				bos.write(t.getInstructionWord().getValue());
+				bos.write(t.getDataWord().getValue());
+			}
+			bos.flush();
+			return bos.toByteArray();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (bos != null) {
+				try {
+					bos.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return null;
+	}
 }

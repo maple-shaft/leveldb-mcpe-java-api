@@ -1,6 +1,7 @@
 package org.middlepath;
 
 import org.junit.Test;
+import org.middlepath.dassembler.DAssembler;
 import org.middlepath.dassembler.linker.DAssemblerLinker;
 import org.middlepath.dassembler.linker.ExampleMemoryCell;
 import org.middlepath.dassembler.linker.ExampleMemoryModule;
@@ -18,6 +19,8 @@ import org.middlepath.mcapi.visitor.NoAction;
 
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,6 +90,23 @@ public class TestMemoryCellFilter {
 		Coordinate c1 = new Coordinate(58, 54, 6);
 		Coordinate c2 = new Coordinate(178, 90, 15);
 		DAssemblerLinker linker = new DAssemblerLinker(j, c1, c2);
+		
+		DAssembler assembler = new DAssembler(TestParse.is2);
+		ByteArrayOutputStream bos = assembler.assemble();
+		
+		linker.writeBytesToMemoryModule(bos);
+		
+		//Now test if the bytes are correct
+		byte[] moduleBytesActual = linker.getMemoryContentsOfModule();
+		byte[] expected = bos.toByteArray();
+		System.out.println(moduleBytesActual.length);
+		
+		for (int i = 0; (i < expected.length && i < moduleBytesActual.length); i++) {
+			System.out.println("Expected: " + expected[i] +
+					", Actual: " + moduleBytesActual[i]);
+			assertEquals(expected[i], moduleBytesActual[i]);
+		}
+		
 		
 	}
 }

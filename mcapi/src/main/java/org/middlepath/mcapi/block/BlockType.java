@@ -17,6 +17,7 @@ public enum BlockType {
 	STRUCTURE_BLOCK("minecraft:structure_block"),
 	REDSTONE_LAMP("minecraft:redstone_lamp"),
 	LIT_REDSTONE_LAMP("minecraft:lit_redstone_lamp"),
+	BIRCH_WALL_SIGN("minecraft:birch_wall_sign"),
 	LEVER("minecraft:lever");
 	
 	BlockType(String name) {

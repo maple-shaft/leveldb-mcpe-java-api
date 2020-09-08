@@ -53,7 +53,7 @@ reference_instruction
 	;
 	
 immediate_instruction
-	:	(STA|LDA|LDB|STB|JMP|ADD|SUB|BEQ|OUT) REFERENCE_SYMBOL
+	:	(STA|LDA|LDB|STB|JMP|ADD|SUB|BEQ|OUT) IMMEDIATE_SYMBOL
 	;
 	
 nooperand_instruction
