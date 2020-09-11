@@ -33,5 +33,22 @@ public class SubChunkTypeChunkFactory implements ChunkSource<SubChunkTypeChunk> 
 	public ByteRetriever getByteRetriever() {
 		return this.byteRetriever;
 	}
+
+	@Override
+	public int saveChunk(SubChunkTypeChunk t) {
+		if (t == null)
+			return -1;
+		
+		Coordinate c = t.getCoordinate();
+		byte[] data = null;
+		int ret = -1;
+		try {
+			data = t.write();
+			ret = getByteRetriever().save(data, RecordType.SUBCHUNK, c.getChunkX(), c.getChunkZ(), c.getYFactor(), 0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
 	
 }

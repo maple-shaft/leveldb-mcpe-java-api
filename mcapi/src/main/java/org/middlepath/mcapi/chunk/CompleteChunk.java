@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.collections4.iterators.IteratorChain;
 import org.middlepath.mcapi.block.Element;
@@ -49,6 +50,12 @@ public class CompleteChunk implements Iterable<Element>, Locatable {
 		SubChunkTypeChunk subChunk = this.subChunkFactory.getLocatable(subc);
 		if (subChunk != null)
 			allSubChunks.put(0, subChunk);
+	}
+	
+	public int save() {
+		Stream<Integer> retCodes = allSubChunks.values().stream().map(this.subChunkFactory::saveChunk);
+		//retCodes.forEach(System.out::println);
+		return retCodes.findFirst().get();
 	}
 	
 	@Override

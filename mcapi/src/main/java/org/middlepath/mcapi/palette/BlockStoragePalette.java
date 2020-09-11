@@ -2,7 +2,6 @@ package org.middlepath.mcapi.palette;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import org.middlepath.mcapi.generic.BedrockSerializable;
 import org.middlepath.mcapi.utils.BinaryUtils;

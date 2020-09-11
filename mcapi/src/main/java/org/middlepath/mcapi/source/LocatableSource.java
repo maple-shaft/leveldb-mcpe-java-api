@@ -16,4 +16,5 @@ public interface LocatableSource<T extends Locatable> {
 
 	public T getLocatable(Coordinate c);
 	
+	
 }

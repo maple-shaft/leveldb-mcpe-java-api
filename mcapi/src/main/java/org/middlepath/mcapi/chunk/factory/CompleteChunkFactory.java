@@ -1,6 +1,7 @@
 package org.middlepath.mcapi.chunk.factory;
 
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 import org.middlepath.mcapi.chunk.CompleteChunk;
 import org.middlepath.mcapi.generic.ByteRetriever;
@@ -39,6 +40,17 @@ public class CompleteChunkFactory implements LocatableSource<CompleteChunk> {
 	
 	public void setByteRetriever(ByteRetriever byteRetriever) {
 		this.byteRetriever = byteRetriever;
+	}
+	
+	/**
+	 * Save all chunks that are cached to the ByteRetriever.
+	 * 
+	 * @return The status code of the Save operation.
+	 */
+	public int save() {
+		Stream<Integer> retCodes = this.cache.values().stream().map(CompleteChunk::save);
+		//retCodes.forEach(System.out::println);
+		return retCodes.findFirst().get();
 	}
 	
 }

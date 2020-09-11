@@ -100,6 +100,20 @@ std::string leveldbmcpenative::DB::GetSubChunk(mapkey_t k, int yDiv)
 	return "-1";
 }
 
+bool leveldbmcpenative::DB::SaveSubChunk(mapkey_t k, int yDiv, unsigned char *data, size_t len)
+{
+	if (database)
+	{
+		LDBKEY_SUBCHUNK(k, yDiv);
+		leveldb::Slice keySlice = leveldb::Slice(key, k.dimension == 0 ? 10 : 14);
+		leveldb::WriteOptions writeOptions;
+		writeOptions.sync = true;
+		leveldb::Slice dataSlice = leveldb::Slice((char *)data, len);
+		status = database->Put(writeOptions, keySlice, dataSlice);
+	}
+	return status.ok();
+}
+
 void leveldbmcpenative::DB::Close()
 {
 	if (database) { delete database; }

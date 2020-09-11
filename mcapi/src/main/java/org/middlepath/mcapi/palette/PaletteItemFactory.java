@@ -43,6 +43,9 @@ public class PaletteItemFactory {
 		if (formatCreator == null)
 			throw new Exception("No palette format was specified!");
 		
+		if (!(tag instanceof CompoundNBTTag))
+			return null;
+		
 		switch (formatCreator) {
 			case LATEST_FORMAT_CREATOR:
 				return createLatestLocal((CompoundNBTTag)tag);
@@ -54,7 +57,7 @@ public class PaletteItemFactory {
 	private PaletteItem createLatestLocal(CompoundNBTTag tag) throws Exception {
 		if (tag == null)
 			throw new Exception("Could not create palette item for LATEST_LOCAL.");
-			
+		try {
 		Optional<NBTTag<?>> blockTypeTagOpt = tag.getValue().stream()
 				.filter(t -> "name".equals(t.getName())).findFirst();
 		Optional<NBTTag<?>> blockStatesTagOpt = tag.getValue().stream()
@@ -73,6 +76,10 @@ public class PaletteItemFactory {
 		} else {
 			throw new Exception("Invalid format for LATEST_LOCAL");
 		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

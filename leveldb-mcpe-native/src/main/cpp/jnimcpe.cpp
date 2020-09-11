@@ -81,6 +81,18 @@ Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_getSubChunk(JNIEnv *env, jobje
 	return as_byte_array(env, retC, ret.length());
 }
 
+JNIEXPORT jlong JNICALL
+Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_saveSubChunk(
+		JNIEnv *env, jobject thiz, jlong ptr, jbyteArray data, jint x, jint z, jint y, jint dim)
+{
+	leveldbmcpenative::DB *database = reinterpret_cast<leveldbmcpenative::DB*>(ptr);
+	mapkey_t key = LDBKEY_STRUCT(static_cast<int32_t>(x), static_cast<int32_t>(z), static_cast<int32_t>(dim));
+	int len = env->GetArrayLength(data);
+	unsigned char *charData = as_unsigned_char_array(env, data);
+	bool retStatus = database->SaveSubChunk(key, (int32_t) y, charData, len);
+	return (jlong)retStatus;
+}
+
 JNIEXPORT void JNICALL
 Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_close(JNIEnv *env, jobject thiz, jlong ptr)
 {
@@ -104,7 +116,6 @@ Java_org_middlepath_leveldbmcpejni_LevelDBMCPEJNI_print(JNIEnv *env, jobject obj
 }
 #endif
 #endif
-
 
 	
 

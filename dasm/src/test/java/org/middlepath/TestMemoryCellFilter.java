@@ -106,7 +106,46 @@ public class TestMemoryCellFilter {
 					", Actual: " + moduleBytesActual[i]);
 			assertEquals(expected[i], moduleBytesActual[i]);
 		}
+	}
+	
+	@Test
+	public void nonRepeatableIntegrationTest() throws Exception {
+		Coordinate c1 = new Coordinate(58, 54, 6);
+		Coordinate c2 = new Coordinate(178, 90, 15);
 		
+		CompleteChunkFactory factory = new CompleteChunkFactory(j);
+		ElementSource bs = new ElementSource(factory);
+		final BlockGrouping<SubChunkBlock> bg = new BlockGrouping<SubChunkBlock>(bs, "cell_loc1", c1, c2);
 		
+		MemoryCellFilter filter = new MemoryCellFilter(bg);
+		FilteringElementTransformingVisitor<SubChunkBlock> filteringVisitor = 
+				new FilteringElementTransformingVisitor<>(new NoAction<SubChunkBlock>(), filter);
+		GroupingVisitor<SubChunkBlock> groupVisitor = new GroupingVisitor<>(filteringVisitor);
+		
+		groupVisitor.visit(bg);
+		
+		assertNotNull(filteringVisitor.getFilterResultCache());
+		
+		List<ExampleMemoryCell> cells = filteringVisitor.getFilterResultCache().stream()
+				.map(s -> ExampleMemoryCell.createMemoryCell(s, bg))
+				.collect(Collectors.toList());
+		assertNotNull(cells);
+		
+		ExampleMemoryModule module = new ExampleMemoryModule(cells);
+		assertNotNull(module);
+
+		Iterator<ExampleMemoryWordTuple> it = module.iterator();
+		while(it.hasNext()) {
+			ExampleMemoryWordTuple t = it.next();
+			t.getInstructionWord().setValue((byte)1);
+			t.getDataWord().setValue((byte)2);
+			System.out.println(t.getInstructionWord().getValue());
+			System.out.println(t.getDataWord().getValue());
+		}
+		
+		//Test the save
+		//int ret = factory.save();
+		
+		//System.out.println("First return code: " + ret);
 	}
 }
