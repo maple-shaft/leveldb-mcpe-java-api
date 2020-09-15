@@ -11,7 +11,62 @@ import org.middlepath.mcapi.generic.BedrockSerializable;
 import java.io.ByteArrayOutputStream;
 
 public class BinaryUtils {
+	
+	static final int SIZE_MASK_ONE = 0b1;
+	static final int SIZE_MASK_TWO = 0b11;
+	static final int SIZE_MASK_THREE = 0b111;
+	static final int SIZE_MASK_FOUR = 0b1111;
+	static final int SIZE_MASK_FIVE = 0b11111;
+	static final int SIZE_MASK_SIX = 0b111111;
+	static final int SIZE_MASK_EIGHT = 0b11111111;
+	static final int SIZE_MASK_SIXTEEN = 0b1111111111111111;
 
+	public static int getBitMask(int bitSize) {
+		switch (bitSize) {
+			case 1:
+				return SIZE_MASK_ONE;
+			case 2:
+				return SIZE_MASK_TWO;
+			case 3:
+				return SIZE_MASK_THREE;
+			case 4:
+				return SIZE_MASK_FOUR;
+			case 5:
+				return SIZE_MASK_FIVE;
+			case 6:
+				return SIZE_MASK_SIX;
+			case 8:
+				return SIZE_MASK_EIGHT;
+			case 16:
+				return SIZE_MASK_SIXTEEN;
+		}
+		return -1;
+	}
+	
+	/**
+	 * Takes a palette size and finds the smallest bit size that can contain that number.
+	 * 
+	 * @param paletteSize
+	 */
+	public static int getBitSize(int paletteSize) {
+		int ret = 0;
+		for (int i = 1; i <= 16; i++) {
+			ret = i;
+			if ((paletteSize >>> i) == 0) {
+				break;
+			}
+		}
+		
+		//cover cases where the palette is enormous
+		if (ret == 7) {
+			ret = 8;
+		} else if (ret > 8) {
+			ret = 16;
+		}
+		
+		return ret;
+	}
+	
 	public static byte[] getRawBytes(InputStream is) throws IOException {
 		ByteArrayOutputStream buffer = null;
 		try {

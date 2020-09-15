@@ -144,8 +144,8 @@ public class TestMemoryCellFilter {
 		}
 		
 		//Test the save
-		//int ret = factory.save();
+		int ret = factory.save();
 		
-		//System.out.println("First return code: " + ret);
+		System.out.println("First return code: " + ret);
 	}
 }

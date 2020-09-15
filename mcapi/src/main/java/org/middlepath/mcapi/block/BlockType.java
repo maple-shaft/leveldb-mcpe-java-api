@@ -18,6 +18,8 @@ public enum BlockType {
 	REDSTONE_LAMP("minecraft:redstone_lamp"),
 	LIT_REDSTONE_LAMP("minecraft:lit_redstone_lamp"),
 	BIRCH_WALL_SIGN("minecraft:birch_wall_sign"),
+	BIRCH_STANDING_SIGN("minecraft:birch_standing_sign"),
+	MAGENTA_GLAZED_TERRACOTTA("minecraft:magenta_glazed_terracotta"),
 	LEVER("minecraft:lever");
 	
 	BlockType(String name) {

@@ -4,7 +4,7 @@ import org.middlepath.mcapi.generic.BedrockSerializable;
 import org.middlepath.mcapi.generic.Coordinate;
 import org.middlepath.mcapi.utils.BinaryUtils;
 
-public class BlockState implements Comparable<BlockState>, BedrockSerializable {
+public class BlockState implements Comparable<BlockState> {
 
 	static final int SIZE_MASK_ONE = 0b1;
 	static final int SIZE_MASK_TWO = 0b11;
@@ -15,28 +15,23 @@ public class BlockState implements Comparable<BlockState>, BedrockSerializable {
 	static final int SIZE_MASK_EIGHT = 0b11111111;
 	static final int SIZE_MASK_SIXTEEN = 0b1111111111111111;
 	
-	final byte bitSize;
+	//final byte bitSize;
 	
 	public int paletteIndex;
 	public int x;
 	public int z;
 	public int y;
 	
-	public BlockState(byte bitSize, int wordIndex, long word) {
-		this.bitSize = bitSize;
-		this.paletteIndex = (int)((word >> (wordIndex * bitSize)) & getBitMask());
+	public BlockState(int x, int z, int y, int paletteIndex) {
+		this.x = x;
+		this.z = z;
+		this.y = y;
+		this.paletteIndex = paletteIndex;
 	}
 	
-	@Override
-	/**
-	 * A block state by itself is just a palette index.  The location is an attribute of where the block state exists in the record 
-	 * (4,096 block states per storage record)
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	public byte[] write() throws Exception {
-		return BinaryUtils.convertIntToBytesLittleEndian(this.paletteIndex);
+	public BlockState(byte bitSize, int wordIndex, long word) {
+		//this.bitSize = bitSize;
+		this.paletteIndex = (int)((word >> (wordIndex * bitSize)) & BinaryUtils.getBitMask(bitSize));
 	}
 	
 	@Override
@@ -64,28 +59,6 @@ public class BlockState implements Comparable<BlockState>, BedrockSerializable {
 		Coordinate otherC = new Coordinate(0,0,0,x,z,y);
 		//TODO: finish implementing this
 		return c.compareTo(otherC);
-	}
-	
-	private int getBitMask() {
-		switch (bitSize) {
-			case 1:
-				return SIZE_MASK_ONE;
-			case 2:
-				return SIZE_MASK_TWO;
-			case 3:
-				return SIZE_MASK_THREE;
-			case 4:
-				return SIZE_MASK_FOUR;
-			case 5:
-				return SIZE_MASK_FIVE;
-			case 6:
-				return SIZE_MASK_SIX;
-			case 8:
-				return SIZE_MASK_EIGHT;
-			case 16:
-				return SIZE_MASK_SIXTEEN;
-		}
-		return -1;
 	}
 	
 }

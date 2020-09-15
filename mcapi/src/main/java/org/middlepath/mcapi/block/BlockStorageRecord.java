@@ -14,11 +14,11 @@ public class BlockStorageRecord implements Iterable<BlockState>, BedrockSerializ
 	static PrintStream o = System.out;
 	
 	private BlockStates storage;
-	protected Integer storageVersion;
-	protected Integer bitsPerBlock;
-	protected Integer blocksPerWord;
-	protected Integer blockStateIndexSize;
-	protected int paletteSize;
+	//protected Integer storageVersion;
+	//protected Integer bitsPerBlock;
+	//protected Integer blocksPerWord;
+	//protected Integer blockStateIndexSize;
+	//protected int paletteSize;
 	protected BlockStoragePalette blockStoragePalette;
 	
 	public BlockStorageRecord(SubChunkTypeChunk parent,
@@ -29,30 +29,33 @@ public class BlockStorageRecord implements Iterable<BlockState>, BedrockSerializ
 			Integer blocksPerWord, Integer blockStateIndexSize) {
 		this.storage = storage;
 		this.blockStoragePalette = blockStoragePalette;
-		this.storageVersion = storageVersion;
-		this.bitsPerBlock = bitsPerBlock;
-		this.blocksPerWord = blocksPerWord;
-		this.blockStateIndexSize = blockStateIndexSize;
-	}
-	
-	public Integer getStorageVersion() {
-		return this.storageVersion;
-	}
-	
-	public Integer getBitsPerBlock() {
-		return this.bitsPerBlock;
-	}
-	
-	public Integer getBlocksPerWord() {
-		return this.blocksPerWord;
-	}
-	
-	public int getBlockStateIndexSize() {
-		return this.blockStateIndexSize;
+		//this.storageVersion = storageVersion;
+		//this.bitsPerBlock = bitsPerBlock;
+		//this.blocksPerWord = blocksPerWord;
+		//this.blockStateIndexSize = blockStateIndexSize;
 	}
 	
 	public int getPaletteSize() {
-		return this.paletteSize;
+		if (blockStoragePalette == null) {
+			return 0;
+		}
+		return blockStoragePalette.size();
+	}
+	
+	public Integer getStorageVersion() {
+		return getBitsPerBlock() << 1;
+	}
+	
+	public int getBitsPerBlock() {
+		return BinaryUtils.getBitSize(getPaletteSize());
+	}
+	
+	public int getBlocksPerWord() {
+		return (int)Math.floor(32 / getBitsPerBlock());
+	}
+	
+	public int getBlockStateIndexSize() {
+		return (int)Math.ceil(4096.0 / ((double)getBlocksPerWord()));
 	}
 	
 	public BlockStoragePalette getPalette() {
@@ -84,8 +87,9 @@ public class BlockStorageRecord implements Iterable<BlockState>, BedrockSerializ
 	public byte[] write() throws Exception {
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		try {
-			bos.write(new byte[] { storageVersion.byteValue() });
-			BinaryUtils.concat(bos, storage.iterator());
+			bos.write(new byte[] { getStorageVersion().byteValue() });
+			//BinaryUtils.concat(bos, storage.iterator());
+			bos.write(storage.write(getBitsPerBlock(), getBlocksPerWord()));
 			bos.write(new byte[] { (byte)0 });
 			BinaryUtils.concat(bos, getPalette().iterator());
 			bos.flush();
