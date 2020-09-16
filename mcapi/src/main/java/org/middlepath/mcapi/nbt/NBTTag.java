@@ -32,7 +32,7 @@ public abstract class NBTTag<T> implements BedrockSerializable {
 		ret[tempIndex++] = getType().write()[0];
 		//write name length and then name
 		byte[] nameBytes = getName().getBytes();
-		byte[] nameByteLength = BinaryUtils.convertShortToBytesLittleEndian((short)nameBytes.length);
+		byte[] nameByteLength = BinaryUtils.convertShortToBytesBigEndian((short)nameBytes.length);
 		
 		System.arraycopy(nameByteLength, 0, ret, tempIndex, 2);
 		tempIndex += 2;

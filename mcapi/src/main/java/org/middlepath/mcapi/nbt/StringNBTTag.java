@@ -40,6 +40,6 @@ public class StringNBTTag extends NBTTag<String> {
 	
 	@Override
 	public byte[] getValueBytesLength() {
-		return BinaryUtils.convertShortToBytesLittleEndian((short)getValueBytes().length);
+		return BinaryUtils.convertShortToBytesBigEndian((short)getValueBytes().length);
 	}
 }

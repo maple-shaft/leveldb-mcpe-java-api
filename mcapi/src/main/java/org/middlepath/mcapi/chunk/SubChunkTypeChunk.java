@@ -86,6 +86,7 @@ public class SubChunkTypeChunk extends AbstractChunk<SubChunkBlock>
 		key.setChunkZ(0);
 		key.setYFactor(0);
 		if (!cache.containsKey(key)) {
+			System.out.println("Cache size: " + cache.size());
 			BlockState state = getDefaultRecord().getBlockStates().getBlockState(
 					c.getInnerX(), c.getInnerZ(), c.getInnerY());
 			SubChunkBlock subChunkBlock = new SubChunkBlock(

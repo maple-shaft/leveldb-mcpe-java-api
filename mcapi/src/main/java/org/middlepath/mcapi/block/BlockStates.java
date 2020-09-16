@@ -8,24 +8,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.middlepath.mcapi.generic.BedrockSerializable;
 import org.middlepath.mcapi.utils.BinaryUtils;
 
 public class BlockStates implements Iterable<BlockState> {
 
 	private Map<Integer, BlockState> blockStates = null;
 	
-	private List<Long> words;
-	//private int blocksPerWord;
-	
 	public BlockStates() {
-		this.words = new ArrayList<Long>();
 		this.blockStates = new HashMap<Integer, BlockState>(4096);
 	}
 	
 	public BlockStates(List<Long> words, int blocksPerWord, int bitSize) {
-		this.words = words;
-		//this.blocksPerWord = blocksPerWord;
 		this.blockStates = new HashMap<Integer, BlockState>(4096);
 		
 		for (int x = 0; x < 16; x++) {

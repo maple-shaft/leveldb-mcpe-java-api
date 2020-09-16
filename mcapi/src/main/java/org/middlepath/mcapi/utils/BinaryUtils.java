@@ -94,10 +94,17 @@ public class BinaryUtils {
 		}
 	}
 	
-	public static byte[] convertShortToBytesLittleEndian(short s) {
+	public static byte[] convertShortToBytesBigEndian(short s) {
 		byte[] ret = new byte[2];
 		ret[1] = (byte)((s >>> 8) & 0xFF);
 		ret[0] = (byte)(s & 0xFF);
+		return ret;
+	}
+	
+	public static byte[] convertShortToBytesLittleEndian(short s) {
+		byte[] ret = new byte[2];
+		ret[0] = (byte)((s >>> 8) & 0xFF);
+		ret[1] = (byte)(s & 0xFF);
 		return ret;
 	}
 	

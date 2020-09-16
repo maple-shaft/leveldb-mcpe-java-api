@@ -1,21 +1,8 @@
 package org.middlepath.mcapi.block;
 
-import org.middlepath.mcapi.generic.BedrockSerializable;
 import org.middlepath.mcapi.generic.Coordinate;
-import org.middlepath.mcapi.utils.BinaryUtils;
 
 public class BlockState implements Comparable<BlockState> {
-
-	static final int SIZE_MASK_ONE = 0b1;
-	static final int SIZE_MASK_TWO = 0b11;
-	static final int SIZE_MASK_THREE = 0b111;
-	static final int SIZE_MASK_FOUR = 0b1111;
-	static final int SIZE_MASK_FIVE = 0b11111;
-	static final int SIZE_MASK_SIX = 0b111111;
-	static final int SIZE_MASK_EIGHT = 0b11111111;
-	static final int SIZE_MASK_SIXTEEN = 0b1111111111111111;
-	
-	//final byte bitSize;
 	
 	public int paletteIndex;
 	public int x;
@@ -27,11 +14,6 @@ public class BlockState implements Comparable<BlockState> {
 		this.z = z;
 		this.y = y;
 		this.paletteIndex = paletteIndex;
-	}
-	
-	public BlockState(byte bitSize, int wordIndex, long word) {
-		//this.bitSize = bitSize;
-		this.paletteIndex = (int)((word >> (wordIndex * bitSize)) & BinaryUtils.getBitMask(bitSize));
 	}
 	
 	@Override

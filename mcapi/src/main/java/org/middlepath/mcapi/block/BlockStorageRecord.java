@@ -87,10 +87,15 @@ public class BlockStorageRecord implements Iterable<BlockState>, BedrockSerializ
 	public byte[] write() throws Exception {
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		try {
+			//Write the storage version which contains the bit size
 			bos.write(new byte[] { getStorageVersion().byteValue() });
-			//BinaryUtils.concat(bos, storage.iterator());
+			//write the storage words
 			bos.write(storage.write(getBitsPerBlock(), getBlocksPerWord()));
-			bos.write(new byte[] { (byte)0 });
+			//Write the palette size as a two byte big endian number
+			bos.write(BinaryUtils.convertShortToBytesBigEndian((short)getPaletteSize()));
+			//two bytes of zero padding before the palette
+			bos.write(new byte[] { (byte)0, (byte)0 });
+			//Write the palette
 			BinaryUtils.concat(bos, getPalette().iterator());
 			bos.flush();
 			return bos.toByteArray();
