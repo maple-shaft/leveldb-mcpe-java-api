@@ -89,7 +89,10 @@ public class BlockStates implements Iterable<BlockState> {
 					tempWord = 0;
 				}
 			}
-			words.add(tempWord);
+			
+			//If it is not a clean divisor of 32 then put the remaining bits in a new word.
+			if ((32 % bitSize) > 0)
+				words.add(tempWord);
 			
 			words.stream().map(BinaryUtils::convertIntToBytesLittleEndian)
 					.forEach(b -> { try { bos.write(b); } catch (IOException e) {}});

@@ -1,6 +1,7 @@
 package org.middlepath.mcapi.chunk.factory;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.middlepath.mcapi.chunk.CompleteChunk;
@@ -49,8 +50,9 @@ public class CompleteChunkFactory implements LocatableSource<CompleteChunk> {
 	 */
 	public int save() {
 		Stream<Integer> retCodes = this.cache.values().stream().map(CompleteChunk::save);
+		return retCodes.collect(Collectors.counting()).intValue();
 		//retCodes.forEach(System.out::println);
-		return retCodes.findFirst().get();
+		//return retCodes.findFirst().get();
 	}
 	
 }
